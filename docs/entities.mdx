@@ -120,6 +120,14 @@ nextTitle: Device Triggers
 | Remaining Filament  |            |
 | Spool serial number |            |
 | Type                | Filament type (e.g. `PLA`), `Empty`, or `?` |
+| Print usage mass    | Grams used on this tray in the **current** print so far (**FTPS** only) |
+| Print usage length  | Millimeters used on this tray in the current print so far (**FTPS** only) |
+| Print planned mass  | Estimated total grams for this tray by end of print (`used + remaining` from 3MF, current `print.mapping`) |
+| Print planned length| Estimated total millimeters for this tray by end of print |
+
+<Info>
+**Print usage / planned attributes** require **FTPS** and an active or recently finished job with a parsed 3MF. Outside printing or without FTPS they are omitted (or zero). After auto-refill, already-used material stays on the old tray; remaining layers are projected onto trays from the **current** `print.mapping`.
+</Info>
 
 <Info>
 **Empty vs unknown:** These are different from the sensor **state** string.
@@ -146,6 +154,10 @@ nextTitle: Device Triggers
 | Nozzle max temp |            |
 | Nozzle min temp |            |
 | Type            |            |
+| Print usage mass | Same as AMS tray attributes (**FTPS** only) |
+| Print usage length | |
+| Print planned mass | |
+| Print planned length | |
 
 ## Hotend Rack
 
