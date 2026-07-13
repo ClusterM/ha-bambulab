@@ -38,6 +38,7 @@ from .const import (
 )
 
 from .pybambu import BambuClient
+from .pybambu.filament_usage import EXTERNAL_SPOOL_TRAY
 from .pybambu.const import (
     AMS_MODELS,
     AMS_DRYING_MODELS,
@@ -134,6 +135,7 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
             self._update_data()
 
         elif event == "event_printer_data_update":
+            self._emit_filament_used_events()
             self._update_data()
 
             # Check is usage hours change and persist to config entry if it did.
@@ -166,6 +168,7 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         # event_print_canceled
         # event_print_failed
         elif 'event_print_' in event:
+            self._emit_filament_used_events()
             self.PublishDeviceTriggerEvent(event)
 
     async def listen(self):
@@ -786,6 +789,66 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
             event_data["error"] = device.print_error.error['error']
             LOGGER.debug(f"EVENT: print_error: {event_data}")
         self._hass.bus.async_fire(f"{DOMAIN}_event", event_data)
+
+    def _resolve_tray_entity_id(self, flat_tray: int) -> str | None:
+        model = self.get_model()
+        printer = model.info
+        ent_reg = entity_registry.async_get(self._hass)
+        device_type = self.config_entry.data["device_type"]
+        serial = printer.serial
+
+        if flat_tray == EXTERNAL_SPOOL_TRAY:
+            for suffix in ("", "2"):
+                unique_id = f"{device_type}_{serial}_ExternalSpool{suffix}_external_spool"
+                for entry in ent_reg.entities.values():
+                    if entry.unique_id == unique_id and entry.platform == DOMAIN:
+                        return entry.entity_id
+            return None
+
+        if flat_tray >= 128:
+            ams_index = flat_tray
+            tray_index = 0
+        else:
+            ams_index = flat_tray // 4
+            tray_index = flat_tray % 4
+
+        ams_instance = model.ams.data.get(ams_index)
+        if ams_instance is None:
+            return None
+
+        unique_id = (
+            f"{device_type}_{serial}_AMS_{ams_instance.serial}_tray_{tray_index + 1}"
+        )
+        for entry in ent_reg.entities.values():
+            if entry.unique_id == unique_id and entry.platform == DOMAIN:
+                return entry.entity_id
+        return None
+
+    def _emit_filament_used_events(self):
+        dev_reg = device_registry.async_get(self._hass)
+        hadevice = dev_reg.async_get_device(
+            identifiers={(DOMAIN, self.get_model().info.serial)}
+        )
+        if hadevice is None:
+            LOGGER.debug("_emit_filament_used_events: device not registered yet")
+            return
+
+        print_job = self.get_model().print_job
+        for filament_event in print_job.pop_filament_used_events():
+            entity_id = self._resolve_tray_entity_id(filament_event.tray_id)
+            event_data = {
+                "device_id": hadevice.id,
+                "name": self.config_entry.options.get("name", ""),
+                "type": "event_filament_used",
+                "entity_id": entity_id,
+                "tray_id": filament_event.tray_id,
+                "layer": filament_event.layer,
+                "mass_g": round(filament_event.mass_g, 4),
+                "length_mm": round(filament_event.length_mm, 2),
+                "filament_index": filament_event.filament_index,
+            }
+            LOGGER.debug(f"EVENT: filament_used: {event_data}")
+            self._hass.bus.async_fire(f"{DOMAIN}_event", event_data)
 
     def _update_device_info(self):
         if not self._updatedDevice:

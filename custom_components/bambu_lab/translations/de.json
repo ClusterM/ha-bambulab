@@ -8,7 +8,8 @@
       "event_print_error": "Druckfehler",
       "event_print_error_cleared": "Druckfehler behoben",
       "event_printer_error": "HMS-Fehler",
-      "event_printer_error_cleared": "HMS-Fehler behoben"
+      "event_printer_error_cleared": "HMS-Fehler behoben",
+      "event_filament_used": "Filament verbraucht"
     }
   },
   "config": {
@@ -631,6 +632,18 @@
           },
           "tray_weight": {
             "name": "Maximales Filamentgewicht"
+          },
+          "print_usage_mass_g": {
+            "name": "Verbrauchte Druckmasse"
+          },
+          "print_usage_length_mm": {
+            "name": "Verbrauchte Drucklänge"
+          },
+          "print_planned_mass_g": {
+            "name": "Geplante Druckmasse"
+          },
+          "print_planned_length_mm": {
+            "name": "Geplante Drucklänge"
           }
         }
       },
@@ -696,6 +709,18 @@
           },
           "tray_weight": {
             "name": "Maximales Filamentgewicht"
+          },
+          "print_usage_mass_g": {
+            "name": "Verbrauchte Druckmasse"
+          },
+          "print_usage_length_mm": {
+            "name": "Verbrauchte Drucklänge"
+          },
+          "print_planned_mass_g": {
+            "name": "Geplante Druckmasse"
+          },
+          "print_planned_length_mm": {
+            "name": "Geplante Drucklänge"
           }
         }
       },

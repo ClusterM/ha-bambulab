@@ -18,6 +18,13 @@ Available events:
 - Print finished
 - Print canceled
 - Print failed (X1 only)
+- Filament used (per completed layer, **FTPS required**). With additional data payload:
+    - entity_id (AMS tray or external spool sensor, may be null if not registered yet)
+    - tray_id (flat tray index: 0-based AMS slot, 255 = external spool, snow/HT uses extended indices)
+    - layer (0-based 3MF layer index)
+    - mass_g
+    - length_mm
+    - filament_index (slicer filament index from the 3MF)
 - HMS error detected. With additional data payload:
     - code
     - error
@@ -29,6 +36,10 @@ Available events:
 For the most part these are just conveniences - you could craft an automation triggering the same way but it takes a bit more effort to understand which sensor(s) to use to track the activity you want which requires understanding how the sensors and what the available states are.
 
 The print canceled and print error events are only a transient event from the printer rather than a persistent state so these are not available from sensors.
+
+**Filament used** fires once per completed print layer while a job is running (and flushes any remaining layers when the print finishes). It requires **FTPS** so the integration can download and parse the active 3MF for per-layer usage. Tray assignment comes from the printer MQTT report field `print.mapping` (updated on auto-refill). Without FTPS or before the 3MF is parsed, this trigger does not fire.
+
+If MQTT `layer_num` advances by **one** at a time, the integration may emit several events in one update when the 3MF was downloaded late (catch-up). If `layer_num` **jumps by more than one** (for example after skipping objects on the plate), only the newly completed layer is credited — intermediate 3MF layers are not treated as printed.
 
 The printer sensor that exposes HMS errors as a list would very complex to effectively handle correctly in the multi-error case so the printer errors event just gives you the most recent error to allow much easier handling in a notification.
 
