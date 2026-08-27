@@ -8,7 +8,8 @@
       "event_print_error": "Printfout",
       "event_print_error_cleared": "Printfout gewist",
       "event_printer_error": "HMS-fout",
-      "event_printer_error_cleared": "HMS-fout gewist"
+      "event_printer_error_cleared": "HMS-fout gewist",
+      "event_filament_used": "Filament gebruikt"
     }
   },
   "config": {
@@ -635,6 +636,18 @@
           "tray_weight": {
             "name": "Maximaal gewicht van de gloeidraad"
           },
+          "print_usage_mass_g": {
+            "name": "Gebruikte printmassa"
+          },
+          "print_usage_length_mm": {
+            "name": "Gebruikte printlengte"
+          },
+          "print_planned_mass_g": {
+            "name": "Geplande printmassa"
+          },
+          "print_planned_length_mm": {
+            "name": "Geplande printlengte"
+          },
           "bed_temp": {
             "name": "Bedtemperatuur"
           },
@@ -711,6 +724,18 @@
           },
           "tray_weight": {
             "name": "Maximaal gewicht van de gloeidraad"
+          },
+          "print_usage_mass_g": {
+            "name": "Gebruikte printmassa"
+          },
+          "print_usage_length_mm": {
+            "name": "Gebruikte printlengte"
+          },
+          "print_planned_mass_g": {
+            "name": "Geplande printmassa"
+          },
+          "print_planned_length_mm": {
+            "name": "Geplande printlengte"
           }
         }
       },

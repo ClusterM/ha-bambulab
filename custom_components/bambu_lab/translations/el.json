@@ -8,7 +8,8 @@
       "event_print_error": "Σφάλμα εκτύπωσης",
       "event_print_error_cleared": "Το σφάλμα εκτύπωσης διαγράφηκε",
       "event_printer_error": "Σφάλμα HMS",
-      "event_printer_error_cleared": "Το σφάλμα HMS διαγράφηκε"
+      "event_printer_error_cleared": "Το σφάλμα HMS διαγράφηκε",
+      "event_filament_used": "Χρησιμοποιημένο νήμα"
     }
   },
   "config": {
@@ -629,6 +630,18 @@
           "tray_weight": {
             "name": "Μέγιστο βάρος νήματος"
           },
+          "print_usage_mass_g": {
+            "name": "Μάζα που χρησιμοποιήθηκε στην εκτύπωση"
+          },
+          "print_usage_length_mm": {
+            "name": "Μήκος που χρησιμοποιήθηκε στην εκτύπωση"
+          },
+          "print_planned_mass_g": {
+            "name": "Προγραμματισμένη μάζα εκτύπωσης"
+          },
+          "print_planned_length_mm": {
+            "name": "Προγραμματισμένο μήκος εκτύπωσης"
+          },
           "bed_temp": {
             "name": "Θερμοκρασία κρεβατιού"
           },
@@ -705,6 +718,18 @@
           },
           "tray_weight": {
             "name": "Μέγιστο βάρος νήματος"
+          },
+          "print_usage_mass_g": {
+            "name": "Μάζα που χρησιμοποιήθηκε στην εκτύπωση"
+          },
+          "print_usage_length_mm": {
+            "name": "Μήκος που χρησιμοποιήθηκε στην εκτύπωση"
+          },
+          "print_planned_mass_g": {
+            "name": "Προγραμματισμένη μάζα εκτύπωσης"
+          },
+          "print_planned_length_mm": {
+            "name": "Προγραμματισμένο μήκος εκτύπωσης"
           }
         }
       },

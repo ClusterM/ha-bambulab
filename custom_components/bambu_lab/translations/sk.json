@@ -8,7 +8,8 @@
       "event_print_error": "Chyba tlače",
       "event_print_error_cleared": "Odstránená chyba tlače",
       "event_printer_error": "Chyba HMS",
-      "event_printer_error_cleared": "Chyba HMS odstránená"
+      "event_printer_error_cleared": "Chyba HMS odstránená",
+      "event_filament_used": "Použitý filament"
     }
   },
   "config": {
@@ -629,6 +630,18 @@
           "tray_weight": {
             "name": "Maximálna hmotnosť vlákna"
           },
+          "print_usage_mass_g": {
+            "name": "Spotrebovaná hmotnosť tlače"
+          },
+          "print_usage_length_mm": {
+            "name": "Spotrebovaná dĺžka tlače"
+          },
+          "print_planned_mass_g": {
+            "name": "Plánovaná hmotnosť tlače"
+          },
+          "print_planned_length_mm": {
+            "name": "Plánovaná dĺžka tlače"
+          },
           "bed_temp": {
             "name": "Teplota lôžka"
           },
@@ -693,6 +706,18 @@
           },
           "tray_weight": {
             "name": "Maximálna hmotnosť vlákna"
+          },
+          "print_usage_mass_g": {
+            "name": "Spotrebovaná hmotnosť tlače"
+          },
+          "print_usage_length_mm": {
+            "name": "Spotrebovaná dĺžka tlače"
+          },
+          "print_planned_mass_g": {
+            "name": "Plánovaná hmotnosť tlače"
+          },
+          "print_planned_length_mm": {
+            "name": "Plánovaná dĺžka tlače"
           },
           "bed_temp": {
             "name": "Teplota lôžka"

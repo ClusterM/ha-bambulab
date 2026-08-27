@@ -9,7 +9,8 @@
       "event_print_error_cleared": "Print error cleared",
       "event_printer_error": "HMS error",
       "event_printer_error_cleared": "HMS error cleared",
-      "event_printer_missing_sdcard": "Missing SD card"
+      "event_printer_missing_sdcard": "Missing SD card",
+      "event_filament_used": "Filament used"
     }
   },
   "config": {
@@ -743,6 +744,18 @@
           },
           "tray_weight": {
             "name": "Maximum weight of filament"
+          },
+          "print_usage_mass_g": {
+            "name": "Print usage mass"
+          },
+          "print_usage_length_mm": {
+            "name": "Print usage length"
+          },
+          "print_planned_mass_g": {
+            "name": "Print planned mass"
+          },
+          "print_planned_length_mm": {
+            "name": "Print planned length"
           }
         }
       },
@@ -808,6 +821,18 @@
           },
           "tray_weight": {
             "name": "Maximum weight of filament"
+          },
+          "print_usage_mass_g": {
+            "name": "Print usage mass"
+          },
+          "print_usage_length_mm": {
+            "name": "Print usage length"
+          },
+          "print_planned_mass_g": {
+            "name": "Print planned mass"
+          },
+          "print_planned_length_mm": {
+            "name": "Print planned length"
           }
         }
       },

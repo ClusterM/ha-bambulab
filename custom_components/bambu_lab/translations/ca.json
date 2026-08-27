@@ -8,7 +8,8 @@
       "event_print_error": "Error d'impressió",
       "event_print_error_cleared": "Error d'impressió esborrat",
       "event_printer_error": "Error d'HMS",
-      "event_printer_error_cleared": "Error d'HMS esborrat"
+      "event_printer_error_cleared": "Error d'HMS esborrat",
+      "event_filament_used": "Filament utilitzat"
     }
   },
   "config": {
@@ -629,6 +630,18 @@
           "tray_weight": {
             "name": "Pes màxim de filament"
           },
+          "print_usage_mass_g": {
+            "name": "Massa utilitzada en la impressió"
+          },
+          "print_usage_length_mm": {
+            "name": "Longitud utilitzada en la impressió"
+          },
+          "print_planned_mass_g": {
+            "name": "Massa planificada de la impressió"
+          },
+          "print_planned_length_mm": {
+            "name": "Longitud planificada de la impressió"
+          },
           "bed_temp": {
             "name": "Temperatura del llit"
           },
@@ -705,6 +718,18 @@
           },
           "tray_weight": {
             "name": "Pes màxim del filament"
+          },
+          "print_usage_mass_g": {
+            "name": "Massa utilitzada en la impressió"
+          },
+          "print_usage_length_mm": {
+            "name": "Longitud utilitzada en la impressió"
+          },
+          "print_planned_mass_g": {
+            "name": "Massa planificada de la impressió"
+          },
+          "print_planned_length_mm": {
+            "name": "Longitud planificada de la impressió"
           }
         }
       },

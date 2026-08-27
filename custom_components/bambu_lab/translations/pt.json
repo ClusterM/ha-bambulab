@@ -8,7 +8,8 @@
       "event_print_error": "Erro de impressão",
       "event_print_error_cleared": "Erro de impressão resolvido",
       "event_printer_error": "Erro HMS",
-      "event_printer_error_cleared": "Erro HMS resolvido"
+      "event_printer_error_cleared": "Erro HMS resolvido",
+      "event_filament_used": "Filamento utilizado"
     }
   },
   "config": {
@@ -727,6 +728,18 @@
           },
           "tray_weight": {
             "name": "Peso máximo do filamento"
+          },
+          "print_usage_mass_g": {
+            "name": "Massa utilizada na impressão"
+          },
+          "print_usage_length_mm": {
+            "name": "Comprimento utilizado na impressão"
+          },
+          "print_planned_mass_g": {
+            "name": "Massa planeada da impressão"
+          },
+          "print_planned_length_mm": {
+            "name": "Comprimento planeado da impressão"
           }
         }
       },
@@ -792,6 +805,18 @@
           },
           "tray_weight": {
             "name": "Peso máximo do filamento"
+          },
+          "print_usage_mass_g": {
+            "name": "Massa utilizada na impressão"
+          },
+          "print_usage_length_mm": {
+            "name": "Comprimento utilizado na impressão"
+          },
+          "print_planned_mass_g": {
+            "name": "Massa planeada da impressão"
+          },
+          "print_planned_length_mm": {
+            "name": "Comprimento planeado da impressão"
           }
         }
       },

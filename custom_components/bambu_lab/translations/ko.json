@@ -8,7 +8,8 @@
       "event_print_error": "인쇄 오류",
       "event_print_error_cleared": "인쇄 오류가 해결되었습니다.",
       "event_printer_error": "HMS 오류",
-      "event_printer_error_cleared": "HMS 오류가 해결되었습니다."
+      "event_printer_error_cleared": "HMS 오류가 해결되었습니다.",
+      "event_filament_used": "필라멘트 사용됨"
     }
   },
   "config": {
@@ -629,6 +630,18 @@
           "tray_weight": {
             "name": "필라멘트의 최대 무게"
           },
+          "print_usage_mass_g": {
+            "name": "출력 사용 질량"
+          },
+          "print_usage_length_mm": {
+            "name": "출력 사용 길이"
+          },
+          "print_planned_mass_g": {
+            "name": "출력 계획 질량"
+          },
+          "print_planned_length_mm": {
+            "name": "출력 계획 길이"
+          },
           "bed_temp": {
             "name": "침대 온도"
           },
@@ -705,6 +718,18 @@
           },
           "tray_weight": {
             "name": "필라멘트의 최대 무게"
+          },
+          "print_usage_mass_g": {
+            "name": "출력 사용 질량"
+          },
+          "print_usage_length_mm": {
+            "name": "출력 사용 길이"
+          },
+          "print_planned_mass_g": {
+            "name": "출력 계획 질량"
+          },
+          "print_planned_length_mm": {
+            "name": "출력 계획 길이"
           }
         }
       },
