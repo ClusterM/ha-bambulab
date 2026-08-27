@@ -648,8 +648,20 @@ class BambuClient:
         LOGGER.debug(f"Subscribing: device/{self._serial}/report")
         self.client.subscribe(f"device/{self._serial}/report")
 
+    def _assign_sequence_id(self, msg: dict) -> None:
+        """Assign a unique sequence_id (epoch milliseconds as string) to an outbound MQTT message."""
+        if not isinstance(msg, dict):
+            return
+        # Some subsystems like AMS can't handle messages with the sequence_id > 2^31 - 1.
+        seq_id = str(int(time.time() * 1000) % (2**31 - 1))
+        for section in msg.values():
+            if isinstance(section, dict) and "sequence_id" in section:
+                section["sequence_id"] = seq_id
+                return
+
     def publish(self, msg):
         """Publish a custom message"""
+        self._assign_sequence_id(msg)
         result = self.client.publish(f"device/{self._serial}/request", json.dumps(msg))
         status = result.rc
         if status == 0:
