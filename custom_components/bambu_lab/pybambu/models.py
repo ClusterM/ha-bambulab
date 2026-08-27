@@ -88,6 +88,7 @@ class Device:
         self.external_spool = [ ExternalSpool(client = client, index = 0), ExternalSpool(client = client, index = 1) ]
         self.hms = HMSList(client = client)
         self.print_error = PrintError(client = client)
+        self.command_error = CommandError(client = client)
         self.camera = Camera(client = client)
         self.home_flag = HomeFlag(client=client)
         self.extruder = Extruder(client=client)
@@ -116,6 +117,7 @@ class Device:
         send_event = send_event | self.external_spool[1].print_update(data = data)
         send_event = send_event | self.hms.print_update(data = data)
         send_event = send_event | self.print_error.print_update(data = data)
+        send_event = send_event | self.command_error.print_update(data = data)
         send_event = send_event | self.camera.print_update(data = data)
         send_event = send_event | self.home_flag.print_update(data = data)
         send_event = send_event | self.print_fun.print_update(data = data)
@@ -3405,6 +3407,39 @@ class PrintError:
     @property
     def on(self) -> int:
         return self._error is not None
+
+
+@dataclass
+class CommandError:
+    """Track failed command responses (e.g. rejected/invalid MQTT signature)."""
+    _error: dict
+
+    def __init__(self, client):
+        self._error = None
+        self._client = client
+
+    def print_update(self, data) -> bool:
+        # Command acknowledgements that failed carry a 'result' of 'failed' and
+        # a human readable 'reason', e.g. a rejected MQTT signature:
+        # {"command": "extrusion_cali_get", "err_code": 84033546,
+        #  "reason": "mqtt message verify failed", "result": "failed", ...}
+        if data.get("result") == "failed" and data.get("reason"):
+            error = {
+                "command": data.get("command", ""),
+                "reason": data.get("reason", ""),
+                "err_code": data.get("err_code", 0),
+                "sequence_id": data.get("sequence_id", ""),
+            }
+            if self._error != error:
+                self._error = error
+                self._client.callback("event_printer_command_error")
+
+        # We send the error event directly so always return False for the general data event.
+        return False
+
+    @property
+    def error(self) -> dict:
+        return self._error
 
 
 @dataclass
