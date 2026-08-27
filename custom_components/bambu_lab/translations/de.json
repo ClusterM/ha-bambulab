@@ -84,8 +84,9 @@
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
-              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
-              "slicer_key": "Privater Slicer-Schlüssel (optional):"
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }
@@ -108,8 +109,9 @@
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
-              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
-              "slicer_key": "Privater Slicer-Schlüssel (optional):"
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }
@@ -182,8 +184,9 @@
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
-              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
-              "slicer_key": "Privater Slicer-Schlüssel (optional):"
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }
@@ -205,8 +208,9 @@
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
-              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
-              "slicer_key": "Privater Slicer-Schlüssel (optional):"
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }

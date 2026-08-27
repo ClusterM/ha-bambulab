@@ -83,8 +83,9 @@
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
-              "slicer_cert_id": "Slicer-certificaat-ID (optioneel):",
-              "slicer_key": "Privésleutel van slicer (optioneel):"
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -107,8 +108,9 @@
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
-              "slicer_cert_id": "Slicer-certificaat-ID (optioneel):",
-              "slicer_key": "Privésleutel van slicer (optioneel):"
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -181,8 +183,9 @@
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
-              "slicer_cert_id": "Slicer-certificaat-ID (optioneel):",
-              "slicer_key": "Privésleutel van slicer (optioneel):"
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -204,8 +207,9 @@
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
-              "slicer_cert_id": "Slicer-certificaat-ID (optioneel):",
-              "slicer_key": "Privésleutel van slicer (optioneel):"
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }

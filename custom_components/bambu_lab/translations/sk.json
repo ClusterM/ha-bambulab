@@ -83,8 +83,9 @@
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
-              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
-              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }
@@ -107,8 +108,9 @@
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
-              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
-              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }
@@ -181,8 +183,9 @@
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
-              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
-              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }
@@ -204,8 +207,9 @@
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
-              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
-              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }

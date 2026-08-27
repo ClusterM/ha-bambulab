@@ -83,8 +83,9 @@
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
               "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
-              "slicer_cert_id": "ID du certificat du slicer (facultatif) :",
-              "slicer_key": "Clé privée du slicer (facultatif) :"
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }
@@ -107,8 +108,9 @@
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
               "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
-              "slicer_cert_id": "ID du certificat du slicer (facultatif) :",
-              "slicer_key": "Clé privée du slicer (facultatif) :"
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }
@@ -181,8 +183,9 @@
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
               "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
-              "slicer_cert_id": "ID du certificat du slicer (facultatif) :",
-              "slicer_key": "Clé privée du slicer (facultatif) :"
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }
@@ -204,8 +207,9 @@
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
               "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
-              "slicer_cert_id": "ID du certificat du slicer (facultatif) :",
-              "slicer_key": "Clé privée du slicer (facultatif) :"
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }

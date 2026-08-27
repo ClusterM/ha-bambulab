@@ -85,8 +85,9 @@
             "data": {
               "disable_ssl_verify": "Disable SSL verification",
               "enable_firmware_update": "Enable firmware update support",
-              "slicer_cert_id": "Slicer certificate ID (optional):",
-              "slicer_key": "Slicer private key (optional):"
+              "slicer_key": "Slicer private key (optional):",
+              "slicer_cert": "Slicer certificate (optional):",
+              "slicer_crl": "Slicer CRL (optional):"
             }
           }
         }
@@ -109,8 +110,9 @@
             "data": {
               "disable_ssl_verify": "Disable SSL verification",
               "enable_firmware_update": "Enable firmware update support",
-              "slicer_cert_id": "Slicer certificate ID (optional):",
-              "slicer_key": "Slicer private key (optional):"
+              "slicer_key": "Slicer private key (optional):",
+              "slicer_cert": "Slicer certificate (optional):",
+              "slicer_crl": "Slicer CRL (optional):"
             }
           }
         }
@@ -184,8 +186,9 @@
             "data": {
               "disable_ssl_verify": "Disable SSL verification",
               "enable_firmware_update": "Enable firmware update support",
-              "slicer_cert_id": "Slicer certificate ID (optional):",
-              "slicer_key": "Slicer private key (optional):"
+              "slicer_key": "Slicer private key (optional):",
+              "slicer_cert": "Slicer certificate (optional):",
+              "slicer_crl": "Slicer CRL (optional):"
             }
           }
         }
@@ -207,8 +210,9 @@
             "data": {
               "disable_ssl_verify": "Disable SSL verification",
               "enable_firmware_update": "Enable firmware update support",
-              "slicer_cert_id": "Slicer certificate ID (optional):",
-              "slicer_key": "Slicer private key (optional):"
+              "slicer_key": "Slicer private key (optional):",
+              "slicer_cert": "Slicer certificate (optional):",
+              "slicer_crl": "Slicer CRL (optional):"
             }
           }
         }
@@ -507,7 +511,7 @@
           "moving_toolhead_to_center_of_heatbed": "Moving toolhead to center of heatbed",
           "active_arc_fitting": "Active arc fitting",
           "hotend_type_detection": "Hotend type detection",
-          "build_plate_alignment_detection" : "Build plate alignment detection",
+          "build_plate_alignment_detection": "Build plate alignment detection",
           "heatbed_surface_foreign_object_detection": "Heatbed surface foreign object detection",
           "heatbed_underside_foreign_object_detection": "Heatbed underside foreign object detection",
           "pre_extrusion_before_printing": "Pre-extrusion before printing",
@@ -840,7 +844,9 @@
           "empty": "Empty"
         },
         "state_attributes": {
-          "slot": { "name": "Slot" },
+          "slot": {
+            "name": "Slot"
+          },
           "nozzle_type": {
             "name": "Nozzle type",
             "state": {
@@ -853,10 +859,18 @@
               "unknown": "Unknown"
             }
           },
-          "nozzle_diameter": { "name": "Nozzle diameter" },
-          "serial": { "name": "Serial number" },
-          "max_temp": { "name": "Max temperature" },
-          "wear": { "name": "Wear" },
+          "nozzle_diameter": {
+            "name": "Nozzle diameter"
+          },
+          "serial": {
+            "name": "Serial number"
+          },
+          "max_temp": {
+            "name": "Max temperature"
+          },
+          "wear": {
+            "name": "Wear"
+          },
           "status": {
             "name": "Status",
             "state": {
@@ -865,9 +879,15 @@
               "unknown": "Unknown"
             }
           },
-          "color": { "name": "Color" },
-          "filament_id": { "name": "Filament ID" },
-          "filament_name": { "name": "Filament name" }
+          "color": {
+            "name": "Color"
+          },
+          "filament_id": {
+            "name": "Filament ID"
+          },
+          "filament_name": {
+            "name": "Filament name"
+          }
         }
       }
     },
