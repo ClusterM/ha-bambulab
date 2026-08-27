@@ -39,6 +39,7 @@ CONFIG_VERSION = 2
 BOOLEAN_SELECTOR = BooleanSelector()
 NUMBER_SELECTOR = TextSelector(TextSelectorConfig(type=TextSelectorType.NUMBER))
 TEXT_SELECTOR = TextSelector(TextSelectorConfig(type=TextSelectorType.TEXT))
+MULTILINE_TEXT_SELECTOR = TextSelector(TextSelectorConfig(type=TextSelectorType.TEXT, multiline=True))
 PASSWORD_SELECTOR = TextSelector(TextSelectorConfig(type=TextSelectorType.PASSWORD))
 REGION_LIST = [
     SelectOptionDict(value="AsiaPacific", label="Asia Pacific"),
@@ -423,6 +424,8 @@ class BambuLabFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                             "usage_hours": float(user_input['usage_hours']),
                             "disable_ssl_verify": user_input['advanced']['disable_ssl_verify'],
                             "enable_firmware_update": user_input['advanced']['enable_firmware_update'],
+                            "slicer_cert_id": user_input['advanced'].get('slicer_cert_id', ''),
+                            "slicer_key": user_input['advanced'].get('slicer_key', ''),
                             "force_ip": force_ip,
                     }
 
@@ -440,6 +443,8 @@ class BambuLabFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         default_usage_hours = "0" if user_input is None else user_input['usage_hours']
         default_disable_ssl_verify = False if user_input is None else user_input.get('advanced', {}).get('disable_ssl_verify', '')
         default_enable_firmware_update = False if user_input is None else user_input.get('advanced', {}).get('enable_firmware_update', '')
+        default_slicer_cert_id = '' if user_input is None else user_input.get('advanced', {}).get('slicer_cert_id', '')
+        default_slicer_key = '' if user_input is None else user_input.get('advanced', {}).get('slicer_key', '')
 
         # Build form
         fields: OrderedDict[vol.Marker, Any] = OrderedDict()
@@ -454,6 +459,9 @@ class BambuLabFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Schema({
                 vol.Required('disable_ssl_verify', default=default_disable_ssl_verify): BOOLEAN_SELECTOR,
                 vol.Required('enable_firmware_update', default=default_enable_firmware_update): BOOLEAN_SELECTOR,
+                # Use suggested_value (not default) so clearing the field saves as empty.
+                vol.Optional('slicer_cert_id', description={"suggested_value": default_slicer_cert_id}): TEXT_SELECTOR,
+                vol.Optional('slicer_key', description={"suggested_value": default_slicer_key}): MULTILINE_TEXT_SELECTOR,
             }),
             {'collapsed': True},
         )
@@ -506,6 +514,8 @@ class BambuLabFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         "usage_hours": float(user_input['usage_hours']),
                         "disable_ssl_verify": user_input['advanced']['disable_ssl_verify'],
                         "enable_firmware_update": user_input['advanced']['enable_firmware_update'],
+                        "slicer_cert_id": user_input['advanced'].get('slicer_cert_id', ''),
+                        "slicer_key": user_input['advanced'].get('slicer_key', ''),
                         "force_ip": (user_input['host'] != bambu.get_device().info.ip_address),
                 }
 
@@ -536,6 +546,8 @@ class BambuLabFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         default_usage_hours = "0" if user_input is None else user_input['usage_hours']
         default_disable_ssl_verify = False if user_input is None else user_input.get('advanced', {}).get('disable_ssl_verify', '')
         default_enable_firmware_update = False if user_input is None else user_input.get('advanced', {}).get('enable_firmware_update', '')
+        default_slicer_cert_id = '' if user_input is None else user_input.get('advanced', {}).get('slicer_cert_id', '')
+        default_slicer_key = '' if user_input is None else user_input.get('advanced', {}).get('slicer_key', '')
 
         # Build form
         fields: OrderedDict[vol.Marker, Any] = OrderedDict()
@@ -549,6 +561,9 @@ class BambuLabFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Schema({
                 vol.Required('disable_ssl_verify', default=default_disable_ssl_verify): BOOLEAN_SELECTOR,
                 vol.Required('enable_firmware_update', default=default_enable_firmware_update): BOOLEAN_SELECTOR,
+                # Use suggested_value (not default) so clearing the field saves as empty.
+                vol.Optional('slicer_cert_id', description={"suggested_value": default_slicer_cert_id}): TEXT_SELECTOR,
+                vol.Optional('slicer_key', description={"suggested_value": default_slicer_key}): MULTILINE_TEXT_SELECTOR,
             }),
             {'collapsed': True},
         )
@@ -861,6 +876,8 @@ class BambuOptionsFlowHandler(config_entries.OptionsFlow):
                     options["usage_hours"] = float(user_input['usage_hours'])
                     options["disable_ssl_verify"] = user_input['advanced']['disable_ssl_verify']
                     options["enable_firmware_update"] = user_input['advanced']['enable_firmware_update']
+                    options["slicer_cert_id"] = user_input['advanced'].get('slicer_cert_id', '')
+                    options["slicer_key"] = user_input['advanced'].get('slicer_key', '')
                     options["print_cache_count"] = max(-1, int(user_input['print_cache_count']))
                     options["timelapse_cache_count"] = max(-1, int(user_input['timelapse_cache_count']))
                     options["force_ip"] = force_ip
@@ -895,6 +912,10 @@ class BambuOptionsFlowHandler(config_entries.OptionsFlow):
         default_usage_hours = str(self._config_entry.options.get('usage_hours', 0)) if user_input is None else user_input['usage_hours']
         default_disable_ssl_verify = self._config_entry.options.get('disable_ssl_verify', False) if user_input is None else user_input.get('advanced', {}).get('disable_ssl_verify', self._config_entry.options.get('disable_ssl_verify', ''))
         default_enable_firmware_update = self._config_entry.options.get('enable_firmware_update', False) if user_input is None else user_input.get('advanced', {}).get('enable_firmware_update', self._config_entry.options.get('enable_firmware_update', ''))
+        # After submit, missing optional keys mean the user cleared them — do not
+        # fall back to the previously stored options value.
+        default_slicer_cert_id = self._config_entry.options.get('slicer_cert_id', '') if user_input is None else user_input.get('advanced', {}).get('slicer_cert_id', '')
+        default_slicer_key = self._config_entry.options.get('slicer_key', '') if user_input is None else user_input.get('advanced', {}).get('slicer_key', '')
 
         # Build form
         fields: OrderedDict[vol.Marker, Any] = OrderedDict()
@@ -910,6 +931,9 @@ class BambuOptionsFlowHandler(config_entries.OptionsFlow):
             vol.Schema({
                 vol.Required('disable_ssl_verify', default=default_disable_ssl_verify): BOOLEAN_SELECTOR,
                 vol.Required('enable_firmware_update', default=default_enable_firmware_update): BOOLEAN_SELECTOR,
+                # Use suggested_value (not default) so clearing the field saves as empty.
+                vol.Optional('slicer_cert_id', description={"suggested_value": default_slicer_cert_id}): TEXT_SELECTOR,
+                vol.Optional('slicer_key', description={"suggested_value": default_slicer_key}): MULTILINE_TEXT_SELECTOR,
             }),
             {'collapsed': True},
         )
@@ -958,6 +982,8 @@ class BambuOptionsFlowHandler(config_entries.OptionsFlow):
                 options["usage_hours"] = float(user_input['usage_hours'])
                 options["disable_ssl_verify"] = user_input['advanced']['disable_ssl_verify']
                 options["enable_firmware_update"] = user_input['advanced']['enable_firmware_update']
+                options["slicer_cert_id"] = user_input['advanced'].get('slicer_cert_id', '')
+                options["slicer_key"] = user_input['advanced'].get('slicer_key', '')
                 options["force_ip"] = (user_input['host'] != bambu.get_device().info.ip_address)
 
                 title = self._config_entry.data['serial']
@@ -991,6 +1017,10 @@ class BambuOptionsFlowHandler(config_entries.OptionsFlow):
         default_usage_hours = str(self._config_entry.options.get('usage_hours', 0)) if user_input is None else user_input['usage_hours']
         default_disable_ssl_verify = self._config_entry.options.get('disable_ssl_verify', False) if user_input is None else user_input.get('advanced', {}).get('disable_ssl_verify', self._config_entry.options.get('disable_ssl_verify', ''))
         default_enable_firmware_update = self._config_entry.options.get('enable_firmware_update', False) if user_input is None else user_input.get('advanced', {}).get('enable_firmware_update', self._config_entry.options.get('enable_firmware_update', ''))
+        # After submit, missing optional keys mean the user cleared them — do not
+        # fall back to the previously stored options value.
+        default_slicer_cert_id = self._config_entry.options.get('slicer_cert_id', '') if user_input is None else user_input.get('advanced', {}).get('slicer_cert_id', '')
+        default_slicer_key = self._config_entry.options.get('slicer_key', '') if user_input is None else user_input.get('advanced', {}).get('slicer_key', '')
 
         fields[vol.Required('host', default=default_host)] = TEXT_SELECTOR
         fields[vol.Required('access_code', default=default_access_code)] = TEXT_SELECTOR
@@ -1001,6 +1031,9 @@ class BambuOptionsFlowHandler(config_entries.OptionsFlow):
             vol.Schema({
                 vol.Required('disable_ssl_verify', default=default_disable_ssl_verify): BOOLEAN_SELECTOR,
                 vol.Required('enable_firmware_update', default=default_enable_firmware_update): BOOLEAN_SELECTOR,
+                # Use suggested_value (not default) so clearing the field saves as empty.
+                vol.Optional('slicer_cert_id', description={"suggested_value": default_slicer_cert_id}): TEXT_SELECTOR,
+                vol.Optional('slicer_key', description={"suggested_value": default_slicer_key}): MULTILINE_TEXT_SELECTOR,
             }),
             {'collapsed': True},
         )

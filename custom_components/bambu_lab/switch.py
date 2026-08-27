@@ -64,7 +64,7 @@ async def async_setup_entry(
     if coordinator.get_model().supports_feature(Features.CAMERA_IMAGE):
         async_add_entities([BambuLabCameraImageSwitch(coordinator, entry)])
 
-    if not coordinator.get_model().print_fun.mqtt_signature_required:
+    if not coordinator.get_model().print_fun.mqtt_control_blocked:
         if coordinator.get_model().supports_feature(Features.PROMPT_SOUND):
                 async_add_entities([BambuLabPromptSoundSwitch(coordinator, entry)])
     

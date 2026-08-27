@@ -82,7 +82,9 @@
             "description": "Disse indstillinger er kun nødvendige, hvis du har en ikke-standardopsætning.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):"
             }
           }
         }
@@ -104,7 +106,9 @@
             "description": "Disse indstillinger er kun nødvendige, hvis du har en ikke-standardopsætning.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):"
             }
           }
         }
@@ -176,7 +180,9 @@
             "description": "Disse avancerede muligheder er tidlig eller risikabel funktionalitet. Læs dokumentationen, og brug dem på din egen risiko.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):"
             }
           }
         }
@@ -197,7 +203,9 @@
             "description": "Disse avancerede muligheder er tidlig eller risikabel funktionalitet. Læs dokumentationen og brug dem på din egen risiko.",
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
-              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte"
+              "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
+              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):"
             }
           }
         }

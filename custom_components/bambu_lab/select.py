@@ -26,7 +26,7 @@ async def async_setup_entry(
 
     LOGGER.debug("SELECT::async_setup_entry")
     # Unsure if hybrid mode also blocks speed control.
-    if not coordinator.get_model().print_fun.mqtt_signature_required:
+    if not coordinator.get_model().print_fun.mqtt_control_blocked:
         async_add_entities( [ BambuLabSpeedSelect(coordinator) ] )
 
         if coordinator.get_model().supports_feature(Features.AIRDUCT_MODE):

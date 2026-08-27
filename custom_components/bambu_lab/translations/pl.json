@@ -82,7 +82,9 @@
             "description": "Te opcje są potrzebne tylko przy niestandardowej konfiguracji.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_cert_id": "Identyfikator certyfikatu slicera (opcjonalnie):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):"
             }
           }
         }
@@ -104,7 +106,9 @@
             "description": "Te opcje są potrzebne tylko przy niestandardowej konfiguracji.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_cert_id": "Identyfikator certyfikatu slicera (opcjonalnie):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):"
             }
           }
         }
@@ -176,7 +180,9 @@
             "description": "Te zaawansowane opcje są wczesnymi lub ryzykownymi funkcjami. Zapoznaj się z dokumentacją i korzystaj na własne ryzyko.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_cert_id": "Identyfikator certyfikatu slicera (opcjonalnie):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):"
             }
           }
         }
@@ -197,7 +203,9 @@
             "description": "Te zaawansowane opcje są wczesnymi lub ryzykownymi funkcjami. Zapoznaj się z dokumentacją i korzystaj na własne ryzyko.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_cert_id": "Identyfikator certyfikatu slicera (opcjonalnie):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):"
             }
           }
         }

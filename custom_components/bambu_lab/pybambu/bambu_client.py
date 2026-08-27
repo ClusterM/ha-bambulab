@@ -31,6 +31,14 @@ from .commands import (
     PUSH_ALL,
     START_PUSH,
 )
+from .signing import load_signing_key, maybe_sign
+from .device_cert import (
+    leaf_pem_from_chain,
+    load_device_cert,
+    pem_from_der,
+    public_key_from_cert_pem,
+    save_device_cert,
+)
 from .tests import MockMQTTClient
 from .utils import safe_json_loads
 
@@ -383,6 +391,16 @@ class BambuClient:
         self._timelapse_cache_count = max(-1, int(config.get('timelapse_cache_count', 0)))
         self._disable_ssl_verify = config.get('disable_ssl_verify', False)
         self._cache_path = config.get('file_cache_path', f'/config/www/media/ha-bambulab/{self._serial}')
+        self._slicer_cert_id = config.get('slicer_cert_id', '')
+        self._slicer_key = config.get('slicer_key', '')
+        self._signing_key = load_signing_key(self._slicer_key) if (self._slicer_cert_id and self._slicer_key) else None
+        self._device_cert_path = config.get('device_cert_path', '')
+        self._device_cert_pem: str | None = None
+        self._device_public_key = None
+        if self._device_cert_path:
+            loaded = load_device_cert(self._device_cert_path)
+            if loaded:
+                self.set_printer_device_cert(loaded)
 
         self._connected = False
         self._device_confirmed = False
@@ -422,6 +440,57 @@ class BambuClient:
     def connected(self):
         """Return if connected to server"""
         return self._connected
+
+    @property
+    def mqtt_signing_enabled(self) -> bool:
+        """Return True when we can sign outgoing print commands."""
+        return self._signing_key is not None and self._slicer_cert_id != ''
+
+    def get_printer_device_cert(self) -> str | None:
+        """Return the cached leaf device-cert PEM."""
+        return self._device_cert_pem
+
+    def get_printer_device_public_key(self):
+        """Return the RSA public key from the stored printer device cert, or None."""
+        if self._device_public_key is not None:
+            return self._device_public_key
+        pem = self.get_printer_device_cert()
+        if pem:
+            self._device_public_key = public_key_from_cert_pem(pem)
+        return self._device_public_key
+
+    def set_printer_device_cert(self, pem: str | None) -> None:
+        """Set the in-memory printer device cert (loaded from disk by coordinator)."""
+        leaf = leaf_pem_from_chain(pem) if pem else None
+        self._device_cert_pem = leaf
+        self._device_public_key = public_key_from_cert_pem(leaf) if leaf else None
+
+    def _store_device_cert(self, pem_or_chain: str) -> None:
+        """Update in-memory printer device cert and persist to disk."""
+        leaf = leaf_pem_from_chain(pem_or_chain)
+        if not leaf:
+            return
+        if self._device_cert_pem == leaf:
+            return
+        self._device_cert_pem = leaf
+        self._device_public_key = public_key_from_cert_pem(leaf)
+        if self._device_cert_path and save_device_cert(self._device_cert_path, leaf):
+            LOGGER.debug(f"Saved printer device cert to {self._device_cert_path}")
+        else:
+            LOGGER.debug("Printer device cert updated in memory")
+
+    def _capture_local_tls_device_cert(self) -> None:
+        """Extract the printer device cert from the local MQTT TLS peer certificate."""
+        if not self._local_mqtt or self.client is None:
+            return
+        try:
+            sock = getattr(self.client, "_sock", None)
+            if isinstance(sock, ssl.SSLSocket):
+                der = sock.getpeercert(binary_form=True)
+                if der:
+                    self._store_device_cert(pem_from_der(der))
+        except Exception as e:
+            LOGGER.debug(f"Failed to capture local TLS device cert: {type(e)} {e}")
 
     @property
     def camera_enabled(self):
@@ -502,6 +571,7 @@ class BambuClient:
                    properties: mqtt.Properties | None = None, ):
         """Handle connection"""
         LOGGER.debug(f"On Connect: Connected to printer: {result_code}")
+        self._capture_local_tls_device_cert()
         self._on_connect()
 
     def start_camera(self):
@@ -637,6 +707,10 @@ class BambuClient:
                     self._device.info_update(data=json_data.get("info"))
                 elif json_data.get("system") and json_data.get("system").get("command"):
                     self._device.observe_system_command(data=json_data.get("system"))
+                elif json_data.get("security"):
+                    sec = json_data["security"]
+                    if sec.get("command") == "app_cert_install" and sec.get("printer_cert"):
+                        self._store_device_cert(sec["printer_cert"])
 
 
         except Exception as e:
@@ -650,6 +724,13 @@ class BambuClient:
 
     def publish(self, msg):
         """Publish a custom message"""
+        if self.mqtt_signing_enabled:
+            msg = maybe_sign(
+                msg,
+                self._slicer_cert_id,
+                self._signing_key,
+                device_key=self.get_printer_device_public_key(),
+            )
         result = self.client.publish(f"device/{self._serial}/request", json.dumps(msg))
         status = result.rc
         if status == 0:
@@ -732,6 +813,7 @@ class BambuClient:
                            properties: mqtt.Properties | None = None, ):
 
             LOGGER.debug(f"try_on_connect: Connected to printer: {result_code}")
+            self._capture_local_tls_device_cert()
             self.subscribe_and_request_info()
 
         def try_on_disconnect(client_: mqtt.Client,
@@ -775,6 +857,10 @@ class BambuClient:
             if (json_data.get('print', {}).get('command', '') == 'push_status') and (json_data.get('print', {}).get('msg', 0) == 0):
                 self._device.print_update(data=json_data.get("print"))
                 self.received_push = True
+            if json_data.get("security"):
+                sec = json_data["security"]
+                if sec.get("command") == "app_cert_install" and sec.get("printer_cert"):
+                    self._store_device_cert(sec["printer_cert"])
             # Observe system command is not needed here because it is not an initial message.
 
             if self.received_info and self.received_push:
