@@ -29,6 +29,7 @@ TRIGGER_TYPES = {
     "event_printer_error",
     "event_printer_error_cleared",
     "event_printer_missing_sdcard",
+    "event_filament_used",
 }
 
 TRIGGER_SCHEMA = DEVICE_TRIGGER_BASE_SCHEMA.extend(

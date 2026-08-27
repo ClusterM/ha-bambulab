@@ -8,7 +8,8 @@
       "event_print_error": "打印错误",
       "event_print_error_cleared": "打印错误已清除",
       "event_printer_error": "移动管理系统错误",
-      "event_printer_error_cleared": "HMS 错误已清除"
+      "event_printer_error_cleared": "HMS 错误已清除",
+      "event_filament_used": "耗材已使用"
     }
   },
   "config": {
@@ -617,6 +618,18 @@
           "tray_weight": {
             "name": "耗材的最大重量"
           },
+          "print_usage_mass_g": {
+            "name": "打印已用重量"
+          },
+          "print_usage_length_mm": {
+            "name": "打印已用长度"
+          },
+          "print_planned_mass_g": {
+            "name": "打印计划重量"
+          },
+          "print_planned_length_mm": {
+            "name": "打印计划长度"
+          },
           "bed_temp": {
             "name": "床温"
           },
@@ -681,6 +694,18 @@
           },
           "tray_weight": {
             "name": "耗材的最大重量"
+          },
+          "print_usage_mass_g": {
+            "name": "打印已用重量"
+          },
+          "print_usage_length_mm": {
+            "name": "打印已用长度"
+          },
+          "print_planned_mass_g": {
+            "name": "打印计划重量"
+          },
+          "print_planned_length_mm": {
+            "name": "打印计划长度"
           },
           "bed_temp": {
             "name": "床温"

@@ -8,7 +8,8 @@
       "event_print_error": "Errore di stampa",
       "event_print_error_cleared": "Errore di stampa eliminato",
       "event_printer_error": "Errore HMS",
-      "event_printer_error_cleared": "Errore HMS cancellato"
+      "event_printer_error_cleared": "Errore HMS cancellato",
+      "event_filament_used": "Filamento utilizzato"
     }
   },
   "config": {
@@ -617,6 +618,18 @@
           "tray_weight": {
             "name": "Peso massimo del filamento"
           },
+          "print_usage_mass_g": {
+            "name": "Massa utilizzata per la stampa"
+          },
+          "print_usage_length_mm": {
+            "name": "Lunghezza utilizzata per la stampa"
+          },
+          "print_planned_mass_g": {
+            "name": "Massa pianificata per la stampa"
+          },
+          "print_planned_length_mm": {
+            "name": "Lunghezza pianificata per la stampa"
+          },
           "bed_temp": {
             "name": "Temperatura del letto"
           },
@@ -693,6 +706,18 @@
           },
           "tray_weight": {
             "name": "Peso massimo del filamento"
+          },
+          "print_usage_mass_g": {
+            "name": "Massa utilizzata per la stampa"
+          },
+          "print_usage_length_mm": {
+            "name": "Lunghezza utilizzata per la stampa"
+          },
+          "print_planned_mass_g": {
+            "name": "Massa pianificata per la stampa"
+          },
+          "print_planned_length_mm": {
+            "name": "Lunghezza pianificata per la stampa"
           }
         }
       },
