@@ -27,6 +27,7 @@ from homeassistant.const import (
 )
 from homeassistant.helpers import issue_registry
 from homeassistant.helpers import entity_registry as er
+from homeassistant.components import persistent_notification
 
 from .const import (
     BRAND,
@@ -175,6 +176,9 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
 
         elif event == "event_print_error":
             self._update_print_error()
+
+        elif event == "event_printer_command_error":
+            self._report_command_error()
 
         # event_print_started
         # event_print_finished
@@ -1182,6 +1186,31 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
 
     def _report_hybrid_mode_blocking_issue(self, force: bool = False):
         self._report_generic_issue("hybrid_mode_blocking", force)
+
+    def _report_command_error(self):
+        error = self.get_model().command_error.error
+        if error is None:
+            return
+
+        name = self.config_entry.options.get('name', '') or self.get_model().info.serial
+        command = error.get('command', '')
+        reason = error.get('reason', '')
+        err_code = error.get('err_code', 0)
+        err_code_hex = f"0x{int(err_code):08X}" if isinstance(err_code, int) and err_code else str(err_code)
+
+        LOGGER.error(f"Command '{command}' rejected by printer '{name}': {reason} (err_code {err_code_hex})")
+
+        message = (
+            f"The printer rejected command `{command}`.\n\n"
+            f"Reason: {reason}\n"
+            f"Error code: {err_code_hex}"
+        )
+        persistent_notification.async_create(
+            self._hass,
+            message=message,
+            title=f"Bambu Lab {name}: command rejected",
+            notification_id=f"{DOMAIN}_command_error_{self.get_model().info.serial}",
+        )
 
     @functools.lru_cache(maxsize=1)
     def get_file_cache_directory(self, serial: str|None = None) -> str:
