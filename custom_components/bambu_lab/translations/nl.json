@@ -82,7 +82,10 @@
             "description": "Deze opties zijn alleen nodig als u een niet-standaardinstelling hebt.",
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
-              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen"
+              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -104,7 +107,10 @@
             "description": "Deze opties zijn alleen nodig als u een niet-standaardinstelling hebt.",
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
-              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen"
+              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -176,7 +182,10 @@
             "description": "Deze geavanceerde opties zijn vroege of risicovolle functionaliteit. Lees de documentatie en gebruik ze op eigen risico.",
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
-              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen"
+              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -197,7 +206,10 @@
             "description": "Deze geavanceerde opties zijn vroege of risicovolle functionaliteit. Lees de documentatie en gebruik ze op eigen risico.",
             "data": {
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
-              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen"
+              "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }

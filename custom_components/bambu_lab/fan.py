@@ -68,7 +68,7 @@ async def async_setup_entry(
     
     LOGGER.debug("FAN::async_setup_entry")
     # Fans work in hybrid mode so we don't need to block entities on that.
-    if not coordinator.get_model().print_fun.mqtt_signature_required:
+    if not coordinator.get_model().print_fun.mqtt_control_blocked:
         for description in FANS:
             if description.exists_fn(coordinator):
                 async_add_entities([BambuLabFan(coordinator, description, entry)])

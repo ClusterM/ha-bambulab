@@ -82,7 +82,10 @@
             "description": "Ces options ne sont nécessaires que si vous avez une configuration non standard.",
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
-              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel"
+              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }
@@ -104,7 +107,10 @@
             "description": "Ces options ne sont nécessaires que si vous avez une configuration non standard.",
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
-              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel"
+              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }
@@ -176,7 +182,10 @@
             "description": "Ces options avancées sont des fonctionnalités précoces ou risquées. Lisez la documentation et utilisez-les à vos propres risques.",
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
-              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel"
+              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }
@@ -197,7 +206,10 @@
             "description": "Ces options avancées sont des fonctionnalités précoces ou risquées. Lisez la documentation et utilisez-les à vos propres risques.",
             "data": {
               "disable_ssl_verify": "Désactiver la vérification SSL",
-              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel"
+              "enable_firmware_update": "Activer la prise en charge de la mise à jour du micrologiciel",
+              "slicer_key": "Clé privée du slicer (facultatif) :",
+              "slicer_cert": "Certificat du slicer (facultatif) :",
+              "slicer_crl": "CRL du slicer (facultatif) :"
             }
           }
         }

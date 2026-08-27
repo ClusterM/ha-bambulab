@@ -82,7 +82,10 @@
             "description": "이 옵션은 비표준 설정이있는 경우에만 필요합니다.",
             "data": {
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
-              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다"
+              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
@@ -104,7 +107,10 @@
             "description": "이 옵션은 비표준 설정이있는 경우에만 필요합니다.",
             "data": {
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
-              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다"
+              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
@@ -176,7 +182,10 @@
             "description": "이러한 고급 옵션은 초기 또는 위험한 기능입니다. 문서를 읽고 자신의 위험에 따라 사용하십시오.",
             "data": {
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
-              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다"
+              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
@@ -197,7 +206,10 @@
             "description": "이러한 고급 옵션은 초기 또는 위험한 기능입니다. 문서를 읽고 자신의 위험에 따라 사용하십시오.",
             "data": {
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
-              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다"
+              "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }

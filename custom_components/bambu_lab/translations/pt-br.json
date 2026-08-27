@@ -82,7 +82,10 @@
             "description": "Essas opções são necessárias apenas se você tiver uma configuração fora do padrão.",
             "data": {
               "disable_ssl_verify": "Desative a verificação SSL",
-              "enable_firmware_update": "Ativar suporte de atualização de firmware"
+              "enable_firmware_update": "Ativar suporte de atualização de firmware",
+              "slicer_key": "Chave privada do slicer (opcional):",
+              "slicer_cert": "Certificado do slicer (opcional):",
+              "slicer_crl": "CRL do slicer (opcional):"
             }
           }
         }
@@ -104,7 +107,10 @@
             "description": "Essas opções são necessárias apenas se você tiver uma configuração fora do padrão.",
             "data": {
               "disable_ssl_verify": "Desative a verificação SSL",
-              "enable_firmware_update": "Ativar suporte de atualização de firmware"
+              "enable_firmware_update": "Ativar suporte de atualização de firmware",
+              "slicer_key": "Chave privada do slicer (opcional):",
+              "slicer_cert": "Certificado do slicer (opcional):",
+              "slicer_crl": "CRL do slicer (opcional):"
             }
           }
         }
@@ -176,7 +182,10 @@
             "description": "Essas opções avançadas são funcionalidades precoces ou arriscadas. Leia a documentação e use -os por sua conta e risco.",
             "data": {
               "disable_ssl_verify": "Desative a verificação SSL",
-              "enable_firmware_update": "Ativar suporte de atualização de firmware"
+              "enable_firmware_update": "Ativar suporte de atualização de firmware",
+              "slicer_key": "Chave privada do slicer (opcional):",
+              "slicer_cert": "Certificado do slicer (opcional):",
+              "slicer_crl": "CRL do slicer (opcional):"
             }
           }
         }
@@ -197,7 +206,10 @@
             "description": "Essas opções avançadas são funcionalidades precoces ou arriscadas. Leia a documentação e use -os por sua conta e risco.",
             "data": {
               "disable_ssl_verify": "Desative a verificação SSL",
-              "enable_firmware_update": "Ativar suporte de atualização de firmware"
+              "enable_firmware_update": "Ativar suporte de atualização de firmware",
+              "slicer_key": "Chave privada do slicer (opcional):",
+              "slicer_cert": "Certificado do slicer (opcional):",
+              "slicer_crl": "CRL do slicer (opcional):"
             }
           }
         }

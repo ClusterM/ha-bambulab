@@ -82,7 +82,10 @@
             "description": "Tyto možnosti jsou potřeba pouze v případě, že máte nestandardní nastavení.",
             "data": {
               "disable_ssl_verify": "Zakázat ověřování SSL",
-              "enable_firmware_update": "Povolit podporu aktualizace firmwaru"
+              "enable_firmware_update": "Povolit podporu aktualizace firmwaru",
+              "slicer_key": "Soukromý klíč sliceru (volitelné):",
+              "slicer_cert": "Certifikát sliceru (volitelné):",
+              "slicer_crl": "CRL sliceru (volitelné):"
             }
           }
         }
@@ -104,7 +107,10 @@
             "description": "Tyto možnosti jsou potřeba pouze v případě, že máte nestandardní nastavení.",
             "data": {
               "disable_ssl_verify": "Zakázat ověřování SSL",
-              "enable_firmware_update": "Povolit podporu aktualizace firmwaru"
+              "enable_firmware_update": "Povolit podporu aktualizace firmwaru",
+              "slicer_key": "Soukromý klíč sliceru (volitelné):",
+              "slicer_cert": "Certifikát sliceru (volitelné):",
+              "slicer_crl": "CRL sliceru (volitelné):"
             }
           }
         }
@@ -176,7 +182,10 @@
             "description": "Tyto pokročilé možnosti jsou rané nebo riskantní funkce. Přečtěte si dokumentaci a používejte je na vlastní nebezpečí.",
             "data": {
               "disable_ssl_verify": "Zakázat ověřování SSL",
-              "enable_firmware_update": "Povolit podporu aktualizace firmwaru"
+              "enable_firmware_update": "Povolit podporu aktualizace firmwaru",
+              "slicer_key": "Soukromý klíč sliceru (volitelné):",
+              "slicer_cert": "Certifikát sliceru (volitelné):",
+              "slicer_crl": "CRL sliceru (volitelné):"
             }
           }
         }
@@ -197,7 +206,10 @@
             "description": "Tyto pokročilé možnosti jsou rané nebo riskantní funkce. Přečtěte si dokumentaci a používejte je na vlastní nebezpečí.",
             "data": {
               "disable_ssl_verify": "Zakázat ověřování SSL",
-              "enable_firmware_update": "Povolit podporu aktualizace firmwaru"
+              "enable_firmware_update": "Povolit podporu aktualizace firmwaru",
+              "slicer_key": "Soukromý klíč sliceru (volitelné):",
+              "slicer_cert": "Certifikát sliceru (volitelné):",
+              "slicer_crl": "CRL sliceru (volitelné):"
             }
           }
         }
