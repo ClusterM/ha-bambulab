@@ -9,7 +9,8 @@
       "event_print_error_cleared": "Erreur d'impression effacée",
       "event_printer_error": "Erreur HMS",
       "event_printer_error_cleared": "Erreur HMS effacée",
-      "event_printer_missing_sdcard": "Carte SD manquante"
+      "event_printer_missing_sdcard": "Carte SD manquante",
+      "event_filament_used": "Filament utilisé"
     }
   },
   "config": {
@@ -629,6 +630,18 @@
           "tray_weight": {
             "name": "Poids maximum de filament"
           },
+          "print_usage_mass_g": {
+            "name": "Masse utilisée pour l’impression"
+          },
+          "print_usage_length_mm": {
+            "name": "Longueur utilisée pour l’impression"
+          },
+          "print_planned_mass_g": {
+            "name": "Masse prévue pour l’impression"
+          },
+          "print_planned_length_mm": {
+            "name": "Longueur prévue pour l’impression"
+          },
           "bed_temp": {
             "name": "Température du lit"
           },
@@ -705,6 +718,18 @@
           },
           "tray_weight": {
             "name": "Poids maximum de filament"
+          },
+          "print_usage_mass_g": {
+            "name": "Masse utilisée pour l’impression"
+          },
+          "print_usage_length_mm": {
+            "name": "Longueur utilisée pour l’impression"
+          },
+          "print_planned_mass_g": {
+            "name": "Masse prévue pour l’impression"
+          },
+          "print_planned_length_mm": {
+            "name": "Longueur prévue pour l’impression"
           }
         }
       },
