@@ -90,7 +90,7 @@ async def async_setup_entry(
         
     LOGGER.debug("NUMBER::async_setup_entry")
 
-    if not coordinator.get_model().info.is_hybrid_mode_blocking and not coordinator.get_model().print_fun.mqtt_signature_required:
+    if not coordinator.get_model().info.is_hybrid_mode_blocking and not coordinator.get_model().print_fun.mqtt_control_blocked:
         for description in NUMBERS:
             if description.exists_fn(coordinator):
                 async_add_entities([BambuLabNumber(coordinator, description, entry)])

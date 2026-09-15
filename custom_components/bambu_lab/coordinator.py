@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import copy
 import functools
+import json
 import os
 import re
 import time
@@ -79,6 +80,7 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         config.update(entry.options.items())
         config['user_language'] = hass.config.language
         config['file_cache_path'] = self.get_file_cache_directory(config['serial'])
+        config['device_cert_path'] = hass.config.path(f".storage/bambu_lab/certs/{config['serial']}.pem")
         self.client = BambuClient(config)
             
         self._updatedDevice = False
@@ -273,7 +275,7 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
             write_action = False
 
         if write_action:
-            if self.get_model().print_fun.mqtt_signature_required:
+            if self.get_model().print_fun.mqtt_control_blocked:
                 LOGGER.error("Printer firmware requires mqtt encryption. All control actions are blocked.")
                 self._report_encryption_enabled_issue(True)
                 return False

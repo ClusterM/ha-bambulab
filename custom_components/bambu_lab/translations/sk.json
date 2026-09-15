@@ -84,7 +84,9 @@
             "description": "Tieto možnosti sú potrebné iba vtedy, ak máte neštandardné nastavenie.",
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
-              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru"
+              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
+              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
             }
           }
         }
@@ -106,7 +108,9 @@
             "description": "Tieto možnosti sú potrebné iba vtedy, ak máte neštandardné nastavenie.",
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
-              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru"
+              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
+              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
             }
           }
         }
@@ -179,7 +183,9 @@
             "description": "Tieto pokročilé možnosti sú včasnou alebo riskantnou funkciou. Prečítajte si dokumentáciu a použite ich na svoje vlastné riziko.",
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
-              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru"
+              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
+              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
             }
           }
         }
@@ -200,7 +206,9 @@
             "description": "Tieto pokročilé možnosti sú včasnou alebo riskantnou funkciou. Prečítajte si dokumentáciu a použite ich na svoje vlastné riziko.",
             "data": {
               "disable_ssl_verify": "Zakázať overenie SSL",
-              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru"
+              "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
+              "slicer_cert_id": "ID certifikátu slicera (voliteľné):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):"
             }
           }
         }

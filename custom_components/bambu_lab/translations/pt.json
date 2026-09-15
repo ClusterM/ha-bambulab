@@ -84,7 +84,9 @@
             "description": "Estas opções só são necessárias se tiveres uma configuração não standard.",
             "data": {
               "disable_ssl_verify": "Desativar verificação SSL",
-              "enable_firmware_update": "Ativar suporte para atualização de firmware"
+              "enable_firmware_update": "Ativar suporte para atualização de firmware",
+              "slicer_cert_id": "ID do certificado do slicer (opcional):",
+              "slicer_key": "Chave privada do slicer (opcional):"
             }
           }
         }
@@ -106,7 +108,9 @@
             "description": "Estas opções só são necessárias se tiveres uma configuração não standard.",
             "data": {
               "disable_ssl_verify": "Desativar verificação SSL",
-              "enable_firmware_update": "Ativar suporte para atualização de firmware"
+              "enable_firmware_update": "Ativar suporte para atualização de firmware",
+              "slicer_cert_id": "ID do certificado do slicer (opcional):",
+              "slicer_key": "Chave privada do slicer (opcional):"
             }
           }
         }
@@ -179,7 +183,9 @@
             "description": "Estas opções avançadas são funcionalidades experimentais ou de risco. Lê a documentação e usa-as por tua conta e risco.",
             "data": {
               "disable_ssl_verify": "Desativar verificação SSL",
-              "enable_firmware_update": "Ativar suporte para atualização de firmware"
+              "enable_firmware_update": "Ativar suporte para atualização de firmware",
+              "slicer_cert_id": "ID do certificado do slicer (opcional):",
+              "slicer_key": "Chave privada do slicer (opcional):"
             }
           }
         }
@@ -200,7 +206,9 @@
             "description": "Estas opções avançadas são funcionalidades experimentais ou de risco. Lê a documentação e usa-as por tua conta e risco.",
             "data": {
               "disable_ssl_verify": "Desativar verificação SSL",
-              "enable_firmware_update": "Ativar suporte para atualização de firmware"
+              "enable_firmware_update": "Ativar suporte para atualização de firmware",
+              "slicer_cert_id": "ID do certificado do slicer (opcional):",
+              "slicer_key": "Chave privada do slicer (opcional):"
             }
           }
         }

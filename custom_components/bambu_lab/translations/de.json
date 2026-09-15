@@ -84,7 +84,9 @@
             "description": "Diese Optionen sind nur erforderlich, wenn Sie ein nicht standardmäßiges Setup haben.",
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
-              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren"
+              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
+              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):"
             }
           }
         }
@@ -106,7 +108,9 @@
             "description": "Diese Optionen sind nur erforderlich, wenn Sie ein nicht standardmäßiges Setup haben.",
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
-              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren"
+              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
+              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):"
             }
           }
         }
@@ -179,7 +183,9 @@
             "description": "Diese erweiterten Optionen sind frühe oder riskante Funktionen. Lesen Sie die Dokumentation und verwenden Sie sie auf eigenes Risiko.",
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
-              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren"
+              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
+              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):"
             }
           }
         }
@@ -200,7 +206,9 @@
             "description": "Diese erweiterten Optionen sind frühe oder riskante Funktionen. Lesen Sie die Dokumentation und verwenden Sie sie auf eigenes Risiko.",
             "data": {
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
-              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren"
+              "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
+              "slicer_cert_id": "Slicer-Zertifikat-ID (optional):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):"
             }
           }
         }
