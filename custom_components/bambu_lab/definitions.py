@@ -34,6 +34,7 @@ from .const import (
     Options,
 )
 from .coordinator import BambuDataUpdateCoordinator
+from .pybambu.filament_usage import EXTERNAL_SPOOL_TRAY
 from .pybambu.const import (
     PRINT_TYPE_OPTIONS,
     SPEED_PROFILE,
@@ -49,6 +50,28 @@ from .pybambu.utils import get_filament_name
 def fan_to_percent(speed):
     percentage = (int(speed) / 15) * 100
     return math.ceil(percentage / 10) * 10
+
+
+def _flat_tray_for_ams(coordinator: BambuDataUpdateCoordinator, ams_index: int, tray_index: int) -> int:
+    ams = coordinator.get_model().ams.data.get(ams_index)
+    if ams is not None and ams.model == "AMS HT":
+        return ams_index
+    return ams_index * 4 + tray_index
+
+
+def _tray_print_job_attributes(coordinator: BambuDataUpdateCoordinator, flat_tray: int) -> dict:
+    if not coordinator.client.ftp_enabled:
+        return {}
+    print_job = coordinator.get_model().print_job
+    usage = print_job.get_tray_print_usage(flat_tray)
+    planned = print_job.get_tray_print_planned(flat_tray)
+    return {
+        "print_usage_mass_g": round(usage.mass_g, 4),
+        "print_usage_length_mm": round(usage.length_mm, 2),
+        "print_planned_mass_g": round(planned.mass_g, 4),
+        "print_planned_length_mm": round(planned.length_mm, 2),
+    }
+
 
 @dataclass
 class BambuLabUpdateEntityDescription(UpdateEntityDescription):
@@ -734,6 +757,7 @@ VIRTUAL_TRAY_SENSORS: tuple[BambuLabSensorEntityDescription, ...] = (
             "tag_uid": self.coordinator.get_model().external_spool[self.index].tag_uid,
             "tray_uuid": self.coordinator.get_model().external_spool[self.index].tray_uuid,
             "type": self.coordinator.get_model().external_spool[self.index].type,
+            **_tray_print_job_attributes(self.coordinator, EXTERNAL_SPOOL_TRAY),
         },
     ),
 )
@@ -844,6 +868,10 @@ def _tray_sensor(tray_index: int, display_number: int) -> BambuLabAMSSensorEntit
             "tag_uid": self.coordinator.get_model().ams.data[self.index].tray[idx].tag_uid,
             "tray_uuid": self.coordinator.get_model().ams.data[self.index].tray[idx].tray_uuid,
             "type": self.coordinator.get_model().ams.data[self.index].tray[idx].type,
+            **_tray_print_job_attributes(
+                self.coordinator,
+                _flat_tray_for_ams(self.coordinator, self.index, idx),
+            ),
         },
         **({"exists_fn": lambda coordinator, index: coordinator.get_model().ams.data[index].model != "AMS HT"} if tray_index > 0 else {}),
     )

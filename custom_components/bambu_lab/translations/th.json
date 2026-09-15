@@ -9,7 +9,8 @@
       "event_print_error_cleared": "ล้างข้อผิดพลาดการพิมพ์",
       "event_printer_error": "ข้อผิดพลาดของ HMS",
       "event_printer_error_cleared": "เคลียร์ข้อผิดพลาด HMS",
-      "event_printer_missing_sdcard": "การ์ด SD หายไป"
+      "event_printer_missing_sdcard": "การ์ด SD หายไป",
+      "event_filament_used": "ใช้เส้นใยแล้ว"
     }
   },
   "config": {
@@ -630,6 +631,18 @@
           "tray_weight": {
             "name": "น้ำหนักสูงสุดของเส้นใย"
           },
+          "print_usage_mass_g": {
+            "name": "น้ำหนักที่ใช้พิมพ์"
+          },
+          "print_usage_length_mm": {
+            "name": "ความยาวที่ใช้พิมพ์"
+          },
+          "print_planned_mass_g": {
+            "name": "น้ำหนักที่วางแผนพิมพ์"
+          },
+          "print_planned_length_mm": {
+            "name": "ความยาวที่วางแผนพิมพ์"
+          },
           "bed_temp": {
             "name": "อุณหภูมิเตียง"
           },
@@ -694,6 +707,18 @@
           },
           "tray_weight": {
             "name": "น้ำหนักสูงสุดของเส้นใย"
+          },
+          "print_usage_mass_g": {
+            "name": "น้ำหนักที่ใช้พิมพ์"
+          },
+          "print_usage_length_mm": {
+            "name": "ความยาวที่ใช้พิมพ์"
+          },
+          "print_planned_mass_g": {
+            "name": "น้ำหนักที่วางแผนพิมพ์"
+          },
+          "print_planned_length_mm": {
+            "name": "ความยาวที่วางแผนพิมพ์"
           },
           "bed_temp": {
             "name": "อุณหภูมิเตียง"
