@@ -85,8 +85,9 @@
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
               "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
-              "slicer_cert_id": "ID del certificat del slicer (opcional):",
-              "slicer_key": "Clau privada del slicer (opcional):"
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
@@ -109,8 +110,9 @@
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
               "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
-              "slicer_cert_id": "ID del certificat del slicer (opcional):",
-              "slicer_key": "Clau privada del slicer (opcional):"
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
@@ -184,8 +186,9 @@
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
               "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
-              "slicer_cert_id": "ID del certificat del slicer (opcional):",
-              "slicer_key": "Clau privada del slicer (opcional):"
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
@@ -207,8 +210,9 @@
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
               "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
-              "slicer_cert_id": "ID del certificat del slicer (opcional):",
-              "slicer_key": "Clau privada del slicer (opcional):"
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }

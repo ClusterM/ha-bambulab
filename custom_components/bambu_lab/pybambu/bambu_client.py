@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import copy
 import ftplib
 import functools
 import json
@@ -27,12 +28,13 @@ from .const import (
 )
 from .models import Device, SlicerSettings
 from .commands import (
+    APP_CERT_INSTALL_TEMPLATE,
     GET_VERSION,
     PUSH_ALL,
     START_PUSH,
 )
 from .mock_mqtt_client import MockMQTTClient
-from .signing import load_signing_key, maybe_sign
+from .signing import cert_id_from_pem, load_signing_key, maybe_sign
 from .device_cert import (
     leaf_pem_from_chain,
     load_device_cert,
@@ -40,7 +42,6 @@ from .device_cert import (
     public_key_from_cert_pem,
     save_device_cert,
 )
-from .tests import MockMQTTClient
 from .utils import safe_json_loads
 
 class WatchdogThread(threading.Thread):
@@ -397,7 +398,14 @@ class BambuClient:
         self._tcp6000_media_probe_time = 0.0
         self._slicer_cert_id = config.get('slicer_cert_id', '')
         self._slicer_key = config.get('slicer_key', '')
-        self._signing_key = load_signing_key(self._slicer_key) if (self._slicer_cert_id and self._slicer_key) else None
+        self._slicer_cert = config.get('slicer_cert', '')
+        self._slicer_crl = config.get('slicer_crl', '')
+        self._slicer_cert_id = cert_id_from_pem(self._slicer_cert) if self._slicer_cert else None
+        self._signing_key = (
+            load_signing_key(self._slicer_key)
+            if (self._slicer_cert_id and self._slicer_key)
+            else None
+        )
         self._device_cert_path = config.get('device_cert_path', '')
         self._device_cert_pem: str | None = None
         self._device_public_key = None
@@ -448,7 +456,7 @@ class BambuClient:
     @property
     def mqtt_signing_enabled(self) -> bool:
         """Return True when we can sign outgoing print commands."""
-        return self._signing_key is not None and self._slicer_cert_id != ''
+        return self._signing_key is not None and bool(self._slicer_cert_id)
 
     def get_printer_device_cert(self) -> str | None:
         """Return the cached leaf device-cert PEM."""
@@ -608,6 +616,16 @@ class BambuClient:
         self.publish(GET_VERSION)
         self.publish(PUSH_ALL)
 
+    def _publish_app_cert_install(self) -> None:
+        """Install shared app cert + CRL into the printer trust store (RAM)."""
+        if not self._slicer_cert or not self._slicer_crl:
+            return
+        command = copy.deepcopy(APP_CERT_INSTALL_TEMPLATE)
+        command["security"]["app_cert"] = self._slicer_cert
+        command["security"]["crl"] = self._slicer_crl
+        LOGGER.debug("Publishing security.app_cert_install")
+        self.publish(command)
+
     def on_connect(self,
                    client_: mqtt.Client,
                    userdata: None,
@@ -641,7 +659,10 @@ class BambuClient:
         self._connected = True
         self._device_confirmed = False
 
-        self.subscribe_and_request_info()
+        self.subscribe()
+        self._publish_app_cert_install()
+        self.publish(GET_VERSION)
+        self.publish(PUSH_ALL)
 
     def _on_device_confirmed(self):
         """Called on first data payload received from the printer after connection."""
@@ -776,7 +797,7 @@ class BambuClient:
         if self.mqtt_signing_enabled:
             msg = maybe_sign(
                 msg,
-                self._slicer_cert_id,
+                self._slicer_cert_id or '',
                 self._signing_key,
                 device_key=self.get_printer_device_public_key(),
             )

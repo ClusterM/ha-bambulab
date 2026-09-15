@@ -85,8 +85,9 @@
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
-              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
-              "slicer_key": "Slicer privat nøgle (valgfrit):"
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
@@ -109,8 +110,9 @@
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
-              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
-              "slicer_key": "Slicer privat nøgle (valgfrit):"
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
@@ -184,8 +186,9 @@
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
-              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
-              "slicer_key": "Slicer privat nøgle (valgfrit):"
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
@@ -207,8 +210,9 @@
             "data": {
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
-              "slicer_cert_id": "Slicer-certifikat-id (valgfrit):",
-              "slicer_key": "Slicer privat nøgle (valgfrit):"
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }

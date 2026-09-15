@@ -5,11 +5,13 @@ import json
 
 from typing import Any
 
+from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey, RSAPublicKey
 
 from .const import LOGGER
+from .device_cert import leaf_pem_from_chain
 
 SIGN_ALG = "RSA_SHA256"
 SIGN_VER = "v1.0"
@@ -24,6 +26,19 @@ def load_signing_key(pem: str) -> RSAPrivateKey | None:
         return serialization.load_pem_private_key(pem.encode("utf-8"), password=None)
     except Exception as e:
         LOGGER.error(f"Failed to load slicer signing key: {type(e)} {e}")
+        return None
+
+
+def cert_id_from_pem(pem_or_chain: str) -> str | None:
+    """Build MQTT header.cert_id from app leaf cert: lowercase_hex(serial) + RFC4514 issuer."""
+    leaf = leaf_pem_from_chain(pem_or_chain)
+    if not leaf:
+        return None
+    try:
+        cert = x509.load_pem_x509_certificate(leaf.encode("utf-8"))
+        return format(cert.serial_number, "x") + cert.issuer.rfc4514_string()
+    except Exception as e:
+        LOGGER.error(f"Failed to derive slicer cert_id: {type(e)} {e}")
         return None
 
 

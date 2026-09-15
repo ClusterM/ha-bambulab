@@ -85,8 +85,9 @@
             "data": {
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
-              "slicer_cert_id": "切片器证书 ID（可选）：",
-              "slicer_key": "切片器私钥（可选）："
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
@@ -109,8 +110,9 @@
             "data": {
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
-              "slicer_cert_id": "切片器证书 ID（可选）：",
-              "slicer_key": "切片器私钥（可选）："
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
@@ -184,8 +186,9 @@
             "data": {
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
-              "slicer_cert_id": "切片器证书 ID（可选）：",
-              "slicer_key": "切片器私钥（可选）："
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
@@ -207,8 +210,9 @@
             "data": {
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
-              "slicer_cert_id": "切片器证书 ID（可选）：",
-              "slicer_key": "切片器私钥（可选）："
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
