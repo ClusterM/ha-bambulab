@@ -274,7 +274,7 @@ class Device:
             return True
         elif feature == Features.PROMPT_SOUND:
             if model in (a1_printers | a2_printers | h2_printers | p2_printers | x2_printers):
-                return not self.print_fun.mqtt_signature_required
+                return not self.print_fun.mqtt_control_blocked
             return False
         elif feature == Features.AMS_SWITCH_COMMAND:
             if model in p1_printers:
@@ -4226,7 +4226,7 @@ class PrintFun:
         self._value = data.get("fun", str(self._value))
         self._int_value = int(self._value, 16) if self._value else 0
         self._encryption_enabled = (self._int_value & Print_Fun_Values.MQTT_SIGNATURE_REQUIRED) != 0
-        if self._encryption_enabled:
+        if self._encryption_enabled and not self._client.mqtt_signing_enabled:
             if not self._fired_encryption_enabled_event:
                 self._fired_encryption_enabled_event = True
                 self._client.callback("event_printer_mqtt_encryption_enabled")
@@ -4236,6 +4236,11 @@ class PrintFun:
     @property
     def mqtt_signature_required(self) -> bool:
         return self._encryption_enabled
+
+    @property
+    def mqtt_control_blocked(self) -> bool:
+        # True only when the firmware requires a signature AND we cannot sign.
+        return self._encryption_enabled and not self._client.mqtt_signing_enabled
     
 
 @dataclass

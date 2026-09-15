@@ -75,7 +75,7 @@ async def async_setup_entry(
     LOGGER.debug(f"BUTTON::async_setup_entry")
 
     # Unsure if hybrid model blocks this control.
-    if not coordinator.get_model().print_fun.mqtt_signature_required:
+    if not coordinator.get_model().print_fun.mqtt_control_blocked:
         buttons = [
             BambuLabPauseButton(coordinator, entry),
             BambuLabResumeButton(coordinator, entry),

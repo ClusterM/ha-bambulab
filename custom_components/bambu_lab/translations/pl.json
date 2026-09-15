@@ -85,7 +85,10 @@
             "description": "Te opcje są potrzebne tylko przy niestandardowej konfiguracji.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }
@@ -107,7 +110,10 @@
             "description": "Te opcje są potrzebne tylko przy niestandardowej konfiguracji.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }
@@ -180,7 +186,10 @@
             "description": "Te zaawansowane opcje są wczesnymi lub ryzykownymi funkcjami. Zapoznaj się z dokumentacją i korzystaj na własne ryzyko.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }
@@ -201,7 +210,10 @@
             "description": "Te zaawansowane opcje są wczesnymi lub ryzykownymi funkcjami. Zapoznaj się z dokumentacją i korzystaj na własne ryzyko.",
             "data": {
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
-              "enable_firmware_update": "Włącz aktualizację oprogramowania"
+              "enable_firmware_update": "Włącz aktualizację oprogramowania",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }

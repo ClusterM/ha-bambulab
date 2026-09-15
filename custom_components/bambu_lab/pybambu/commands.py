@@ -193,3 +193,11 @@ EXTRUSION_CALI_SEL_TEMPLATE = {
     }
 }
 
+APP_CERT_INSTALL_TEMPLATE = {
+    "security": {
+        "command": "app_cert_install",
+        "sequence_id": "0",
+        "app_cert": "",
+        "crl": "",
+    }
+}

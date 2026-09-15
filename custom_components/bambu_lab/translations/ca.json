@@ -85,7 +85,10 @@
             "description": "Aquestes opcions només són necessàries si teniu una configuració no estàndard.",
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
-              "enable_firmware_update": "Activa l'assistència d'actualització del firmware"
+              "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
@@ -107,7 +110,10 @@
             "description": "Aquestes opcions només són necessàries si teniu una configuració no estàndard.",
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
-              "enable_firmware_update": "Activa l'assistència d'actualització del firmware"
+              "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
@@ -180,7 +186,10 @@
             "description": "Aquestes opcions avançades són una funcionalitat precoç o arriscada. Llegiu la documentació i utilitzeu -les pel vostre propi risc.",
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
-              "enable_firmware_update": "Activa l'assistència d'actualització del firmware"
+              "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
@@ -201,7 +210,10 @@
             "description": "Aquestes opcions avançades són una funcionalitat precoç o arriscada. Llegiu la documentació i utilitzeu -les pel vostre propi risc.",
             "data": {
               "disable_ssl_verify": "Desactiva la verificació SSL",
-              "enable_firmware_update": "Activa l'assistència d'actualització del firmware"
+              "enable_firmware_update": "Activa l'assistència d'actualització del firmware",
+              "slicer_key": "Clau privada del slicer (opcional):",
+              "slicer_cert": "Certificat del slicer (opcional):",
+              "slicer_crl": "CRL del slicer (opcional):"
             }
           }
         }
