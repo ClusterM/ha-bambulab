@@ -111,7 +111,7 @@ class TestCommandTemplates(unittest.TestCase):
         self.assertEqual(cmd['print']['command'], 'extrusion_cali_get')
         self.assertIn('filament_id', cmd['print'])
         self.assertIn('nozzle_diameter', cmd['print'])
-        self.assertIn('extruder_id', cmd['print'])
+        self.assertNotIn('extruder_id', cmd['print'])
 
     def test_extrusion_cali_sel_template_structure(self):
         cmd = copy.deepcopy(EXTRUSION_CALI_SEL_TEMPLATE)

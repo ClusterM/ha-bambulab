@@ -178,7 +178,6 @@ EXTRUSION_CALI_GET_TEMPLATE = {
         "command": "extrusion_cali_get",
         "filament_id": "",
         "nozzle_diameter": "0.4",
-        "extruder_id": 0,
     }
 }
 

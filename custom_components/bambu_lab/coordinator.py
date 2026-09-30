@@ -788,7 +788,8 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         command['print']['filament_id'] = data.get('filament_id', '')
         nozzle_diameter = self.get_model().info.active_nozzle_diameter
         command['print']['nozzle_diameter'] = str(nozzle_diameter) if nozzle_diameter else "0.4"
-        command['print']['extruder_id'] = self.get_model().extruder.active_nozzle_index
+        if data.get("extruder_id") is not None:
+            command['print']['extruder_id'] = int(data["extruder_id"])
 
         loop = asyncio.get_running_loop()
         future = self.client.setup_pending_response("extrusion_cali_get", loop)
