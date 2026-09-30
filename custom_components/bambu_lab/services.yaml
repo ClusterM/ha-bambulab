@@ -365,6 +365,18 @@ get_pa_profiles:
       example: "GFB99"
       selector:
         text:
+    extruder_id:
+      name: Extruder ID
+      description: >-
+        Optional extruder index. Omitted from the printer request when not set.
+      required: false
+      example: 0
+      selector:
+        number:
+          min: 0
+          max: 3
+          step: 1
+          mode: box
 
 select_pa_profile:
   name: Select PA Calibration Profile
