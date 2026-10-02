@@ -302,6 +302,8 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
                 result = self._service_call_unload_filament(data)
             case "set_filament":
                 result = self._service_call_set_filament(data)
+            case "reset_filament":
+                result = self._service_call_reset_filament(data)
             case "get_filament_data":
                 result = self._service_call_get_filament_data(data)
             case "read_rfid":
@@ -588,6 +590,52 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         command['print']['nozzle_temp_max'] = data.get('nozzle_temp_max', '240')
 
         self.client.publish(command)
+
+    def _service_call_reset_filament(self, data: dict):
+        ams_device, entity_id = self._get_ams_device_and_tray(data)
+        if entity_id is None:
+            return False
+
+        # Get the entity details.
+        er = entity_registry.async_get(self._hass)
+        entity_entry = er.async_get(entity_id)
+        entity_unique_id = entity_entry.unique_id
+
+        # entity_entry.unique_id is of the form:
+        #   X1C_<PRINTERSERIAL>_AMS_<AMSSERIAL>_tray_1
+        # or
+        #   X1C_<PRINTERSERIAL>_ExternalSpool_external_spool
+
+        if entity_unique_id.endswith('_external_spool'):
+            ams_index = 255
+            tray_index = 0
+        elif not self.get_model().supports_feature(Features.AMS):
+            LOGGER.error(f"AMS not available")
+            return False
+        elif re.search(r"tray_([1-4])$", entity_unique_id):
+            ams_index, tray_index = self._get_ams_and_tray_index_from_entity_entry(ams_device, entity_entry)
+            if ams_index is None:
+                LOGGER.error("Unable to locate AMS.")
+                return
+            ams_tray = self.get_model().ams.data[ams_index].tray[tray_index]
+            if ams_tray.empty:
+                LOGGER.error(f"AMS {ams_index + 1} tray {tray_index + 1} is empty")
+                return
+        else:
+            LOGGER.error(f"An AMS tray or external spool is required")
+            return False
+
+        command = copy.deepcopy(AMS_FILAMENT_SETTING_TEMPLATE)
+        command['print']['ams_id'] = ams_index
+        command['print']['tray_id'] = tray_index
+        command['print']['tray_info_idx'] = ""
+        command['print']['tray_type'] = ""
+        command['print']['nozzle_temp_min'] = 0
+        command['print']['nozzle_temp_max'] = 0
+        command['print']['color'] = "FFFFFF00"
+
+        self.client.publish(command)
+        return True
 
     def _service_call_get_filament_data(self, data: dict):
         # Create a copy of FILAMENT_DATA
