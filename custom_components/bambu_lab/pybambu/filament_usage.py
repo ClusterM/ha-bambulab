@@ -662,20 +662,25 @@ def analyze_plate(
 
 
 EXTERNAL_SPOOL_TRAY = 255
+SECOND_EXTERNAL_SPOOL_TRAY = 254
 
 
 def decode_mapping_value(value: int) -> int | None:
     """Decode one print.mapping entry to a flat tray index or external spool."""
     if value < 0:
         return None
-    if value in (254, 255) or value == 65280:
-        return EXTERNAL_SPOOL_TRAY
     if value >= 256:
         ams_id = value >> 8
         tray = value & 0x3
+        # Snow form: high byte 255 is the first external spool, 254 the second.
+        if ams_id in (SECOND_EXTERNAL_SPOOL_TRAY, EXTERNAL_SPOOL_TRAY):
+            return ams_id
         if ams_id >= 128:
             return ams_id
         return ams_id * 4 + tray
+    # Flat 254 is the legacy id of the single external spool, not the second one.
+    if value in (SECOND_EXTERNAL_SPOOL_TRAY, EXTERNAL_SPOOL_TRAY):
+        return EXTERNAL_SPOOL_TRAY
     return value
 
 

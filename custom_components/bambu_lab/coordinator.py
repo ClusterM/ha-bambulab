@@ -41,7 +41,7 @@ from .const import (
 
 from .pybambu import BambuClient
 from .pybambu.bambu_cloud import BambuCloud
-from .pybambu.filament_usage import EXTERNAL_SPOOL_TRAY
+from .pybambu.filament_usage import EXTERNAL_SPOOL_TRAY, SECOND_EXTERNAL_SPOOL_TRAY
 from .pybambu.const import (
     AMS_MODELS,
     AMS_DRYING_MODELS,
@@ -816,12 +816,18 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         device_type = self.config_entry.data["device_type"]
         serial = printer.serial
 
-        if flat_tray == EXTERNAL_SPOOL_TRAY:
-            for suffix in ("", "2"):
-                unique_id = f"{device_type}_{serial}_ExternalSpool{suffix}_external_spool"
-                for entry in ent_reg.entities.values():
-                    if entry.unique_id == unique_id and entry.platform == DOMAIN:
-                        return entry.entity_id
+        if flat_tray in (EXTERNAL_SPOOL_TRAY, SECOND_EXTERNAL_SPOOL_TRAY):
+            spool_index = EXTERNAL_SPOOL_TRAY - flat_tray
+            if self.get_model().supports_feature(Features.DUAL_NOZZLES):
+                suffix = "2" if spool_index == 0 else ""
+            elif spool_index == 0:
+                suffix = ""
+            else:
+                return None
+            unique_id = f"{device_type}_{serial}_ExternalSpool{suffix}_external_spool"
+            for entry in ent_reg.entities.values():
+                if entry.unique_id == unique_id and entry.platform == DOMAIN:
+                    return entry.entity_id
             return None
 
         if flat_tray >= 128:
