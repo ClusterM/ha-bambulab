@@ -7,6 +7,7 @@ from pybambu.filament_usage import LayerUsage, PlateUsage, FilamentInfo
 from pybambu.print_filament import (
     FilamentPrintState,
     clear_filament_print_state,
+    get_filament_tray_index,
     get_tray_planned,
     get_tray_usage,
     pop_filament_used_events,
@@ -43,6 +44,16 @@ class TestFilamentUsedEvents(unittest.TestCase):
         self.assertEqual(self.state.filament_mapping, [2])
         update_filament_mapping(self.state, {"mapping": [1]})
         self.assertEqual(self.state.filament_mapping, [1])
+
+    def test_external_spool_active_tray(self):
+        self.state.filament_mapping = []
+        self.device.ams.active_tray_index = 0
+
+        self.device.ams.active_ams_index = 255
+        self.assertEqual(get_filament_tray_index(self.state, 0, device=self.device), 255)
+
+        self.device.ams.active_ams_index = 254
+        self.assertEqual(get_filament_tray_index(self.state, 0, device=self.device), 254)
 
     def test_layer_change_emits_events(self):
         update_filament_mapping(self.state, {"mapping": [2]})

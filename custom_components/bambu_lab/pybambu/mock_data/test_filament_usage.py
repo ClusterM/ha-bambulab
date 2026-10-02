@@ -6,6 +6,7 @@ from io import BytesIO
 
 from pybambu.filament_usage import (
     EXTERNAL_SPOOL_TRAY,
+    SECOND_EXTERNAL_SPOOL_TRAY,
     LayerUsage,
     analyze_plate_from_zipfile,
     decode_mapping_value,
@@ -53,6 +54,12 @@ class TestDecodeMapping(unittest.TestCase):
     def test_snow_encoding(self):
         self.assertEqual(decode_mapping_value(258), 6)
         self.assertEqual(decode_mapping_value(65280), EXTERNAL_SPOOL_TRAY)
+        self.assertEqual(decode_mapping_value(65024), SECOND_EXTERNAL_SPOOL_TRAY)
+        self.assertEqual(decode_mapping_value(65279), SECOND_EXTERNAL_SPOOL_TRAY)
+
+    def test_legacy_flat_external_spool(self):
+        self.assertEqual(decode_mapping_value(254), EXTERNAL_SPOOL_TRAY)
+        self.assertEqual(decode_mapping_value(255), EXTERNAL_SPOOL_TRAY)
 
     def test_unused(self):
         self.assertIsNone(decode_mapping_value(-1))

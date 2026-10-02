@@ -35,7 +35,7 @@ from .const import (
     Options,
 )
 from .coordinator import BambuDataUpdateCoordinator
-from .pybambu.filament_usage import EXTERNAL_SPOOL_TRAY
+from .pybambu.filament_usage import EXTERNAL_SPOOL_TRAY, SECOND_EXTERNAL_SPOOL_TRAY
 from .pybambu.const import (
     PRINT_TYPE_OPTIONS,
     SPEED_PROFILE,
@@ -766,7 +766,10 @@ VIRTUAL_TRAY_SENSORS: tuple[BambuLabSensorEntityDescription, ...] = (
                 self.coordinator.get_model().external_spool[self.index].idx,
                 self.coordinator.get_model().external_spool[self.index].type,
             ),
-            **_tray_print_job_attributes(self.coordinator, EXTERNAL_SPOOL_TRAY),
+            **_tray_print_job_attributes(
+                self.coordinator,
+                SECOND_EXTERNAL_SPOOL_TRAY if self.index else EXTERNAL_SPOOL_TRAY,
+            ),
         },
     ),
 )

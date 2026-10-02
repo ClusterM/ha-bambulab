@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from .const import Features, LOGGER
 from .filament_usage import (
     EXTERNAL_SPOOL_TRAY,
+    SECOND_EXTERNAL_SPOOL_TRAY,
     PlateUsage,
     decode_mapping_list,
     decode_mapping_value,
@@ -86,11 +87,12 @@ def _active_tray_from_device(device) -> int | None:
     if device.supports_feature(Features.AMS):
         ams_index = device.ams.active_ams_index
         tray_index = device.ams.active_tray_index
-        if ams_index == 255:
-            return EXTERNAL_SPOOL_TRAY
+        # 255 is the first external spool, 254 the second. Same ids as vir_slot.
+        if ams_index in (SECOND_EXTERNAL_SPOOL_TRAY, EXTERNAL_SPOOL_TRAY):
+            return ams_index
         if ams_index >= 128:
             return ams_index
-        if ams_index < 255 and tray_index < 4:
+        if ams_index < EXTERNAL_SPOOL_TRAY and tray_index < 4:
             return ams_index * 4 + tray_index
     return EXTERNAL_SPOOL_TRAY
 
