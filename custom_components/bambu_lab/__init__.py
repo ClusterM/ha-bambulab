@@ -406,6 +406,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "done_load_filament": SupportsResponse.NONE,
         "extrude_retract": SupportsResponse.ONLY,
         "set_filament": SupportsResponse.NONE,
+        "reset_filament": SupportsResponse.NONE,
         "get_filament_data": SupportsResponse.ONLY,
         "read_rfid": SupportsResponse.NONE,
         "start_filament_drying": SupportsResponse.NONE,
