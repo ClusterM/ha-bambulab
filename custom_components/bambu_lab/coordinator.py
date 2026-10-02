@@ -540,16 +540,21 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
     def _external_spool_filament_setting_ids(self, ams_device) -> tuple[int, int]:
         """ams_id and tray_id for ams_filament_setting on an external spool.
 
-        Bambu Studio hardcodes tray_id to 254 for every external spool. That id
-        is not the slot index used by ams_change_filament. ams_id matches
-        ExternalSpool vir_slot ids (255 - index) and does not depend on nozzle
-        count: the first spool is always 255, the second (ExternalSpool2) is
-        always 254.
+        tray_id is hardcoded to 254 for both virtual spools. ams_id carries the
+        address: 255 main, 254 deputy. Same devices as extrusion_cali_sel, which
+        uses the real tray id (255 or 254) instead of this hardcoded 254.
         """
         tray_id = 254
-        second = self.get_virtual_tray_device("2")
-        if second["identifiers"] == ams_device.identifiers:
-            return 254, tray_id
+        if self.get_model().supports_feature(Features.DUAL_NOZZLES):
+            # ExternalSpool2 is index 0 / vir_slot 255 (main). The unsuffixed
+            # device is index 1 / vir_slot 254 (deputy).
+            suffix_ams = [("2", 255), ("", 254)]
+        else:
+            suffix_ams = [("", 255)]
+        for suffix, ams_id in suffix_ams:
+            vtray = self.get_virtual_tray_device(suffix)
+            if vtray["identifiers"] == ams_device.identifiers:
+                return ams_id, tray_id
         return 255, tray_id
 
     def _service_call_set_filament(self, data: dict):
@@ -565,11 +570,12 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         # entity_entry.unique_id is of the form:
         #   X1C_<PRINTERSERIAL>_AMS_<AMSSERIAL>_tray_1
         # or
-        #   X1C_<PRINTERSERIAL>_ExternalSpool_external_spool    # first, ams_id 255
-        #   H2C_<PRINTERSERIAL>_ExternalSpool_external_spool    # first, ams_id 255
-        #   H2C_<PRINTERSERIAL>_ExternalSpool2_external_spool   # second, ams_id 254
+        #   X1C_<PRINTERSERIAL>_ExternalSpool_external_spool    # main, ams_id 255
+        #   H2C_<PRINTERSERIAL>_ExternalSpool2_external_spool   # main, ams_id 255
+        #   H2C_<PRINTERSERIAL>_ExternalSpool_external_spool    # deputy, ams_id 254
 
-        if entity_unique_id.endswith('_external_spool'):
+        external_spool = entity_unique_id.endswith('_external_spool')
+        if external_spool:
             ams_index, tray_index = self._external_spool_filament_setting_ids(ams_device)
         elif not self.get_model().supports_feature(Features.AMS):
             LOGGER.error(f"AMS not available")
@@ -604,6 +610,9 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         command['print']['tray_type'] = data.get('tray_type', '')
         command['print']['nozzle_temp_min'] = data.get('nozzle_temp_min', '200')
         command['print']['nozzle_temp_max'] = data.get('nozzle_temp_max', '240')
+        if external_spool:
+            # tray_id stays 254; the slot inside that virtual tray is 0.
+            command['print']['slot_id'] = 0
 
         self.client.publish(command)
 
@@ -620,11 +629,12 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         # entity_entry.unique_id is of the form:
         #   X1C_<PRINTERSERIAL>_AMS_<AMSSERIAL>_tray_1
         # or
-        #   X1C_<PRINTERSERIAL>_ExternalSpool_external_spool    # first, ams_id 255
-        #   H2C_<PRINTERSERIAL>_ExternalSpool_external_spool    # first, ams_id 255
-        #   H2C_<PRINTERSERIAL>_ExternalSpool2_external_spool   # second, ams_id 254
+        #   X1C_<PRINTERSERIAL>_ExternalSpool_external_spool    # main, ams_id 255
+        #   H2C_<PRINTERSERIAL>_ExternalSpool2_external_spool   # main, ams_id 255
+        #   H2C_<PRINTERSERIAL>_ExternalSpool_external_spool    # deputy, ams_id 254
 
-        if entity_unique_id.endswith('_external_spool'):
+        external_spool = entity_unique_id.endswith('_external_spool')
+        if external_spool:
             ams_index, tray_index = self._external_spool_filament_setting_ids(ams_device)
         elif not self.get_model().supports_feature(Features.AMS):
             LOGGER.error(f"AMS not available")
@@ -650,6 +660,8 @@ class BambuDataUpdateCoordinator(DataUpdateCoordinator):
         command['print']['nozzle_temp_min'] = 0
         command['print']['nozzle_temp_max'] = 0
         command['print']['color'] = "FFFFFF00"
+        if external_spool:
+            command['print']['slot_id'] = 0
 
         self.client.publish(command)
         return True
