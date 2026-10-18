@@ -954,6 +954,71 @@ def ams_slot_name(index: int) -> str | None:
     return None
 
 
+# A touchscreen reprint reports the 3MF Title as subtask_name and the extracted
+# plate as gcode_file. The file on disk is named from the project and the plate,
+# so the only reliable check is the archive itself. Stop once newly downloaded
+# bytes would pass this cap; files already in the local cache do not count.
+ARCHIVE_MATCH_DOWNLOAD_LIMIT = 50 * 1024 * 1024
+_GCODE_3MF_SUFFIX = ".gcode.3mf"
+_3MF_MODEL_ENTRY = "3D/3dmodel.model"
+
+
+def mqtt_gcode_archive_entry(gcode_file: str) -> str:
+    """Zip entry for an MQTT gcode path such as /data/Metadata/plate_1.gcode."""
+    path = gcode_file.replace("\\", "/").lstrip("/")
+    if path.lower().startswith("data/"):
+        path = path[len("data/"):]
+    return path
+
+
+def _zip_entry_name(name: str) -> str:
+    return name.replace("\\", "/").lstrip("/")
+
+
+def read_3mf_title(archive: ZipFile) -> str | None:
+    """Title metadata from 3D/3dmodel.model, or None when the entry is absent."""
+    wanted = _3MF_MODEL_ENTRY.lower()
+    entry = next(
+        (
+            name for name in archive.namelist()
+            if _zip_entry_name(name).lower() == wanted
+        ),
+        None,
+    )
+    if entry is None:
+        return None
+    root = ElementTree.fromstring(archive.read(entry))
+    for element in root.iter():
+        if element.tag.endswith("metadata") and element.get("name") == "Title":
+            return element.text or ""
+    return None
+
+
+def archive_contains_gcode(archive: ZipFile, gcode_file: str) -> bool:
+    wanted = mqtt_gcode_archive_entry(gcode_file)
+    if not wanted:
+        return False
+    return wanted in {_zip_entry_name(name) for name in archive.namelist()}
+
+
+def archive_matches_task(archive: ZipFile, subtask_name: str, gcode_file: str) -> bool:
+    """True when Title equals the MQTT task name and the plate gcode is present."""
+    if not subtask_name or not gcode_file:
+        return False
+    return (
+        read_3mf_title(archive) == subtask_name
+        and archive_contains_gcode(archive, gcode_file)
+    )
+
+
+def download_fits_budget(
+    downloaded: int,
+    next_size: int,
+    limit: int = ARCHIVE_MATCH_DOWNLOAD_LIMIT,
+) -> bool:
+    return downloaded + max(next_size, 0) <= limit
+
+
 @dataclass
 class PrintJob:
     """Return all information related content"""
@@ -1639,18 +1704,22 @@ class PrintJob:
             )
             return None
 
-    def _attempt_remote_model_download(self, sources: list[RemoteMediaSource]) -> str | None:
-        filenames_to_try = self._model_filenames_to_try()
-        remote_files = self._collect_remote_files(
-            sources,
-            media_type="model",
-            extensions=['.3mf'],
-            ftps_search_paths=self.ftp_search_paths,
+    def _model_file_is_cached(self, remote_file: RemoteMediaFile) -> bool:
+        cache_file_path, cache_file_path_legacy = self._model_cache_paths(remote_file)
+        size = int(remote_file.size)
+        if size <= 0:
+            return False
+        return (
+            cache_file_path.exists() and cache_file_path.stat().st_size == size
+        ) or (
+            cache_file_path_legacy.exists() and cache_file_path_legacy.stat().st_size == size
         )
-        selected_files = self._select_model_files(remote_files, filenames_to_try)
-        if not selected_files:
-            return None
 
+    def _download_selected_model(
+        self,
+        sources: list[RemoteMediaSource],
+        selected_files: list[RemoteMediaFile],
+    ) -> str | None:
         for selected in selected_files:
             source = next((item for item in sources if item.name == selected.source), None)
             if source is None:
@@ -1668,7 +1737,86 @@ class PrintJob:
             result = self._download_model_file_from_remote(source, selected)
             if result is not None:
                 return result
+        return None
 
+    def _download_model_matching_archive(
+        self,
+        sources: list[RemoteMediaSource],
+        remote_files: list[RemoteMediaFile],
+    ) -> str | None:
+        """Download newest .gcode.3mf files until Title and the plate gcode match.
+
+        Returns the local cache path of the match so the caller parses that file
+        instead of downloading it again. Newly transferred bytes stop at
+        ARCHIVE_MATCH_DOWNLOAD_LIMIT; a file already in the local cache is free.
+        """
+        candidates = [
+            remote_file for remote_file in remote_files
+            if remote_file.basename.lower().endswith(_GCODE_3MF_SUFFIX)
+            and "Metadata" not in remote_file.path
+        ]
+        downloaded = 0
+        for remote_file in candidates:
+            size = int(remote_file.size or 0)
+            cached = self._model_file_is_cached(remote_file)
+            if not cached and not download_fits_budget(downloaded, size):
+                LOGGER.debug(
+                    "Stopping 3MF Title scan at %s bytes; %s (%s bytes) would pass the limit",
+                    downloaded,
+                    remote_file.path,
+                    size,
+                )
+                break
+
+            source = next((item for item in sources if item.name == remote_file.source), None)
+            if source is None:
+                LOGGER.debug(f"No media source object found for model source {remote_file.source}")
+                continue
+            if not self._remote_file_is_stable(
+                source,
+                remote_file,
+                media_type="model",
+                extensions=['.3mf'],
+                ftps_search_paths=self.ftp_search_paths,
+            ):
+                continue
+
+            local_path = self._download_model_file_from_remote(source, remote_file)
+            if local_path is None:
+                continue
+            if not cached:
+                downloaded += size
+
+            try:
+                with ZipFile(local_path) as archive:
+                    matched = archive_matches_task(
+                        archive,
+                        self._subtask_name,
+                        self.gcode_file,
+                    )
+            except Exception as exc:
+                LOGGER.debug(f"Could not read 3MF {local_path}: {type(exc)} Args: {exc}")
+                continue
+            if matched:
+                LOGGER.debug(f"Matched 3MF by Title: {remote_file.path}")
+                return local_path
+            LOGGER.debug(f"3MF {remote_file.path} does not match Title or plate gcode")
+        return None
+
+    def _attempt_remote_model_download(self, sources: list[RemoteMediaSource]) -> str | None:
+        filenames_to_try = self._model_filenames_to_try()
+        remote_files = self._collect_remote_files(
+            sources,
+            media_type="model",
+            extensions=['.3mf'],
+            ftps_search_paths=self.ftp_search_paths,
+        )
+        selected_files = self._select_model_files(remote_files, filenames_to_try)
+        if selected_files:
+            return self._download_selected_model(sources, selected_files)
+
+        if self._subtask_name:
+            return self._download_model_matching_archive(sources, remote_files)
         return None
 
     # The cached files also include the file size appended to them so that new prints of the same model
