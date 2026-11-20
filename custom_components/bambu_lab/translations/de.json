@@ -90,7 +90,10 @@
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
               "enable_filament_inventory": "Filamentinventar aktivieren (Filament Manager, erfordert Bambu Cloud)",
-              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):"
+              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
               "enable_filament_inventory": "Filamentinventar aktivieren (Filament Manager, erfordert Bambu Cloud)",
-              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):"
+              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
               "enable_filament_inventory": "Filamentinventar aktivieren (Filament Manager, erfordert Bambu Cloud)",
-              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):"
+              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "SSL-Überprüfung deaktivieren",
               "enable_firmware_update": "Unterstützung für Firmware-Updates aktivieren",
               "enable_filament_inventory": "Filamentinventar aktivieren (Filament Manager, erfordert Bambu Cloud)",
-              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):"
+              "filament_inventory_interval": "Aktualisierungsintervall des Filamentbestands (Minuten):",
+              "slicer_key": "Privater Slicer-Schlüssel (optional):",
+              "slicer_cert": "Slicer-Zertifikat (optional):",
+              "slicer_crl": "Slicer-CRL (optional):"
             }
           }
         }

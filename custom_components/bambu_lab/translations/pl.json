@@ -90,7 +90,10 @@
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
               "enable_firmware_update": "Włącz aktualizację oprogramowania",
               "enable_filament_inventory": "Włącz inwentaryzację włókien (Filament Manager, wymaga Bambu Cloud)",
-              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):"
+              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
               "enable_firmware_update": "Włącz aktualizację oprogramowania",
               "enable_filament_inventory": "Włącz inwentaryzację włókien (Filament Manager, wymaga Bambu Cloud)",
-              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):"
+              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
               "enable_firmware_update": "Włącz aktualizację oprogramowania",
               "enable_filament_inventory": "Włącz inwentaryzację włókien (Filament Manager, wymaga Bambu Cloud)",
-              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):"
+              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "Wyłącz weryfikację SSL",
               "enable_firmware_update": "Włącz aktualizację oprogramowania",
               "enable_filament_inventory": "Włącz inwentaryzację włókien (Filament Manager, wymaga Bambu Cloud)",
-              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):"
+              "filament_inventory_interval": "Interwał odświeżania zapasów żarnika (w minutach):",
+              "slicer_key": "Klucz prywatny slicera (opcjonalnie):",
+              "slicer_cert": "Certyfikat slicera (opcjonalnie):",
+              "slicer_crl": "CRL slicera (opcjonalnie):"
             }
           }
         }

@@ -90,7 +90,10 @@
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
               "enable_filament_inventory": "Povoliť inventár filamentov (Filament Manager, vyžaduje Bambu Cloud)",
-              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):"
+              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
               "enable_filament_inventory": "Povoliť inventár filamentov (Filament Manager, vyžaduje Bambu Cloud)",
-              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):"
+              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
               "enable_filament_inventory": "Povoliť inventár filamentov (Filament Manager, vyžaduje Bambu Cloud)",
-              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):"
+              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "Zakázať overenie SSL",
               "enable_firmware_update": "Povoľte podporu aktualizácie firmvéru",
               "enable_filament_inventory": "Povoliť inventár filamentov (Filament Manager, vyžaduje Bambu Cloud)",
-              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):"
+              "filament_inventory_interval": "Interval obnovy zásob vlákna (minúty):",
+              "slicer_key": "Súkromný kľúč slicera (voliteľné):",
+              "slicer_cert": "Certifikát slicera (voliteľné):",
+              "slicer_crl": "CRL slicera (voliteľné):"
             }
           }
         }

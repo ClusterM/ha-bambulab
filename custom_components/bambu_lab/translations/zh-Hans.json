@@ -90,7 +90,10 @@
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
               "enable_filament_inventory": "启用灯丝库存（灯丝管理器，需要 Bambu Cloud）",
-              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）："
+              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）：",
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
               "enable_filament_inventory": "启用灯丝库存（灯丝管理器，需要 Bambu Cloud）",
-              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）："
+              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）：",
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
               "enable_filament_inventory": "启用灯丝库存（灯丝管理器，需要 Bambu Cloud）",
-              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）："
+              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）：",
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "禁用SSL验证",
               "enable_firmware_update": "启用固件更新支持",
               "enable_filament_inventory": "启用灯丝库存（灯丝管理器，需要 Bambu Cloud）",
-              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）："
+              "filament_inventory_interval": "灯丝库存刷新间隔（分钟）：",
+              "slicer_key": "切片器私钥（可选）：",
+              "slicer_cert": "切片器证书（可选）：",
+              "slicer_crl": "切片器 CRL（可选）："
             }
           }
         }

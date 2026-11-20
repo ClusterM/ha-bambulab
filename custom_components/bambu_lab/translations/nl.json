@@ -90,7 +90,10 @@
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
               "enable_filament_inventory": "Schakel filamentinventaris in (Filament Manager, vereist Bambu Cloud)",
-              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):"
+              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
               "enable_filament_inventory": "Schakel filamentinventaris in (Filament Manager, vereist Bambu Cloud)",
-              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):"
+              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
               "enable_filament_inventory": "Schakel filamentinventaris in (Filament Manager, vereist Bambu Cloud)",
-              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):"
+              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "Schakel SSL -verificatie uit",
               "enable_firmware_update": "Ondersteuning van firmware -updates inschakelen",
               "enable_filament_inventory": "Schakel filamentinventaris in (Filament Manager, vereist Bambu Cloud)",
-              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):"
+              "filament_inventory_interval": "Vernieuwingsinterval voor filamentinventaris (minuten):",
+              "slicer_key": "Privésleutel van slicer (optioneel):",
+              "slicer_cert": "Slicer-certificaat (optioneel):",
+              "slicer_crl": "Slicer-CRL (optioneel):"
             }
           }
         }

@@ -90,7 +90,10 @@
               "disable_ssl_verify": "ปิดใช้งานการตรวจสอบ SSL",
               "enable_firmware_update": "เปิดใช้งานการสนับสนุนการอัปเดตเฟิร์มแวร์",
               "enable_filament_inventory": "เปิดใช้งานสินค้าคงคลังเส้นใย (Filament Manager ต้องใช้ Bambu Cloud)",
-              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):"
+              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):",
+              "slicer_key": "คีย์ส่วนตัวของสไลเซอร์ (ไม่บังคับ):",
+              "slicer_cert": "ใบรับรองสไลเซอร์ (ไม่บังคับ):",
+              "slicer_crl": "CRL ของสไลเซอร์ (ไม่บังคับ):"
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "ปิดใช้งานการตรวจสอบ SSL",
               "enable_firmware_update": "เปิดใช้งานการสนับสนุนการอัปเดตเฟิร์มแวร์",
               "enable_filament_inventory": "เปิดใช้งานสินค้าคงคลังเส้นใย (Filament Manager ต้องใช้ Bambu Cloud)",
-              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):"
+              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):",
+              "slicer_key": "คีย์ส่วนตัวของสไลเซอร์ (ไม่บังคับ):",
+              "slicer_cert": "ใบรับรองสไลเซอร์ (ไม่บังคับ):",
+              "slicer_crl": "CRL ของสไลเซอร์ (ไม่บังคับ):"
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "ปิดใช้งานการตรวจสอบ SSL",
               "enable_firmware_update": "เปิดใช้งานการสนับสนุนการอัปเดตเฟิร์มแวร์",
               "enable_filament_inventory": "เปิดใช้งานสินค้าคงคลังเส้นใย (Filament Manager ต้องใช้ Bambu Cloud)",
-              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):"
+              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):",
+              "slicer_key": "คีย์ส่วนตัวของสไลเซอร์ (ไม่บังคับ):",
+              "slicer_cert": "ใบรับรองสไลเซอร์ (ไม่บังคับ):",
+              "slicer_crl": "CRL ของสไลเซอร์ (ไม่บังคับ):"
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "ปิดใช้งานการตรวจสอบ SSL",
               "enable_firmware_update": "เปิดใช้งานการสนับสนุนการอัปเดตเฟิร์มแวร์",
               "enable_filament_inventory": "เปิดใช้งานสินค้าคงคลังเส้นใย (Filament Manager ต้องใช้ Bambu Cloud)",
-              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):"
+              "filament_inventory_interval": "ช่วงเวลารีเฟรชสินค้าคงคลังของเส้นใย (นาที):",
+              "slicer_key": "คีย์ส่วนตัวของสไลเซอร์ (ไม่บังคับ):",
+              "slicer_cert": "ใบรับรองสไลเซอร์ (ไม่บังคับ):",
+              "slicer_crl": "CRL ของสไลเซอร์ (ไม่บังคับ):"
             }
           }
         }

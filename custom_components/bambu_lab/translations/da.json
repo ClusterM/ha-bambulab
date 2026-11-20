@@ -90,7 +90,10 @@
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
               "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
-              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
@@ -114,7 +117,10 @@
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
               "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
-              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
@@ -198,7 +204,10 @@
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
               "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
-              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
@@ -221,7 +230,10 @@
               "disable_ssl_verify": "Deaktiver SSL -verifikation",
               "enable_firmware_update": "Aktivér firmwareopdateringsstøtte",
               "enable_filament_inventory": "Aktiver filamentbeholdning (Filament Manager, kræver Bambu Cloud)",
-              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):"
+              "filament_inventory_interval": "Opdateringsinterval for filamentbeholdning (minutter):",
+              "slicer_key": "Slicer privat nøgle (valgfrit):",
+              "slicer_cert": "Slicer-certifikat (valgfrit):",
+              "slicer_crl": "Slicer-CRL (valgfrit):"
             }
           }
         }
