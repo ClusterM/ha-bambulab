@@ -272,6 +272,17 @@ set_filament:
           max: 300
           step: 1
 
+reset_filament:
+  name: Reset filament
+  description: Clears filament details on an AMS tray or an External spool entity
+  fields:
+    entity_id:
+      name: Tray or External spool entity
+      required: true
+      selector:
+        entity:
+          integration: bambu_lab
+
 get_filament_data:
   name: Gets a json string with details about all known filaments
   description: Gets a json string with details about all known filaments
