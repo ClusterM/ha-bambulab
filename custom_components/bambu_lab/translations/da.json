@@ -9,7 +9,8 @@
       "event_print_error_cleared": "Print fejl ryddet",
       "event_printer_error": "HMS fejl",
       "event_printer_error_cleared": "HMS fejl ryddet",
-      "event_printer_missing_sdcard": "Mangler SD-kort"
+      "event_printer_missing_sdcard": "Mangler SD-kort",
+      "event_filament_used": "Filament brugt"
     }
   },
   "config": {
@@ -706,6 +707,18 @@
           "tray_weight": {
             "name": "Maksimal vægt af glødetråd"
           },
+          "print_usage_mass_g": {
+            "name": "Forbrugt printmasse"
+          },
+          "print_usage_length_mm": {
+            "name": "Forbrugt printlængde"
+          },
+          "print_planned_mass_g": {
+            "name": "Planlagt printmasse"
+          },
+          "print_planned_length_mm": {
+            "name": "Planlagt printlængde"
+          },
           "bed_temp": {
             "name": "Sengetemperatur"
           },
@@ -782,6 +795,18 @@
           },
           "tray_weight": {
             "name": "Maksimal vægt af glødetråd"
+          },
+          "print_usage_mass_g": {
+            "name": "Forbrugt printmasse"
+          },
+          "print_usage_length_mm": {
+            "name": "Forbrugt printlængde"
+          },
+          "print_planned_mass_g": {
+            "name": "Planlagt printmasse"
+          },
+          "print_planned_length_mm": {
+            "name": "Planlagt printlængde"
           }
         }
       },
