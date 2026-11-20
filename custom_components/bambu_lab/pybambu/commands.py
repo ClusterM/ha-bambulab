@@ -172,3 +172,12 @@ BUZZER_SET_BEEPING = {"print" : {"sequence_id": "0", "command": "buzzer_ctrl", "
 
 AIRDUCT_SET_MODE_TEMPLATE = {"print": {"sequence_id": "0", "command": "set_airduct", "modeId": 0, "submode": -1}}
 
+APP_CERT_INSTALL_TEMPLATE = {
+    "security": {
+        "command": "app_cert_install",
+        "sequence_id": "0",
+        "app_cert": "",
+        "crl": "",
+    }
+}
+

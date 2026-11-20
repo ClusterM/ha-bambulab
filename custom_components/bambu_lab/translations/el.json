@@ -89,7 +89,10 @@
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
               "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
               "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
-              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):",
+              "slicer_key": "Ιδιωτικό κλειδί slicer (προαιρετικό):",
+              "slicer_cert": "Πιστοποιητικό slicer (προαιρετικό):",
+              "slicer_crl": "CRL slicer (προαιρετικό):"
             }
           }
         }
@@ -113,7 +116,10 @@
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
               "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
               "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
-              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):",
+              "slicer_key": "Ιδιωτικό κλειδί slicer (προαιρετικό):",
+              "slicer_cert": "Πιστοποιητικό slicer (προαιρετικό):",
+              "slicer_crl": "CRL slicer (προαιρετικό):"
             }
           }
         }
@@ -197,7 +203,10 @@
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
               "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
               "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
-              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):",
+              "slicer_key": "Ιδιωτικό κλειδί slicer (προαιρετικό):",
+              "slicer_cert": "Πιστοποιητικό slicer (προαιρετικό):",
+              "slicer_crl": "CRL slicer (προαιρετικό):"
             }
           }
         }
@@ -220,7 +229,10 @@
               "disable_ssl_verify": "Απενεργοποιήστε την επαλήθευση SSL",
               "enable_firmware_update": "Ενεργοποίηση υποστήριξης ενημέρωσης υλικολογισμικού",
               "enable_filament_inventory": "Ενεργοποίηση αποθέματος νήματος (Filament Manager, απαιτεί Bambu Cloud)",
-              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):"
+              "filament_inventory_interval": "Διάστημα ανανέωσης αποθέματος νήματος (λεπτά):",
+              "slicer_key": "Ιδιωτικό κλειδί slicer (προαιρετικό):",
+              "slicer_cert": "Πιστοποιητικό slicer (προαιρετικό):",
+              "slicer_crl": "CRL slicer (προαιρετικό):"
             }
           }
         }

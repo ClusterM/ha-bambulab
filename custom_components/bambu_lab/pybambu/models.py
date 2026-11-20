@@ -324,7 +324,7 @@ class Device:
             return True
         elif feature == Features.PROMPT_SOUND:
             if model in (a1_printers | a2_printers | h2_printers | h3_printers | p2_printers | x2_printers):
-                return not self.print_fun.mqtt_signature_required
+                return not self.print_fun.mqtt_control_blocked
             return False
         elif feature == Features.AMS_SWITCH_COMMAND:
             if model in p1_printers:
@@ -5074,10 +5074,10 @@ class PrintFun:
         else:
             self._encryption_enabled = self._flag3_authorization_control
 
-        if self._encryption_enabled and not self._fired_encryption_enabled_event:
+        if self._encryption_enabled and not self._client.mqtt_signing_enabled and not self._fired_encryption_enabled_event:
             self._fired_encryption_enabled_event = True
             self._client.callback("event_printer_mqtt_encryption_enabled")
-        elif not self._encryption_enabled and self._fired_encryption_enabled_event:
+        elif not self._encryption_enabled and not self._client.mqtt_signing_enabled and self._fired_encryption_enabled_event:
             # Signing is no longer required (e.g. developer mode was turned on). The
             # control entities were skipped at setup, so let the coordinator reload.
             self._fired_encryption_enabled_event = False
@@ -5088,6 +5088,11 @@ class PrintFun:
     @property
     def mqtt_signature_required(self) -> bool:
         return self._encryption_enabled
+
+    @property
+    def mqtt_control_blocked(self) -> bool:
+        # True only when the firmware requires a signature AND we cannot sign.
+        return self._encryption_enabled and not self._client.mqtt_signing_enabled
     
 
 @dataclass

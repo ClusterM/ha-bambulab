@@ -85,7 +85,7 @@ async def async_setup_entry(
     if coordinator.get_model().air_purifier.ready:
         async_add_entities([BambuLabAirPurifierFan(coordinator)])
     # Fans work in hybrid mode so we don't need to block entities on that.
-    if not coordinator.get_model().print_fun.mqtt_signature_required:
+    if not coordinator.get_model().print_fun.mqtt_control_blocked:
         for description in FANS:
             if description.exists_fn(coordinator):
                 async_add_entities([BambuLabFan(coordinator, description, entry)])

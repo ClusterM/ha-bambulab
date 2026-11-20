@@ -89,7 +89,10 @@
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
               "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
               "enable_filament_inventory": "필라멘트 재고 활성화(Filament Manager, Bambu Cloud 필요)",
-              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):"
+              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
@@ -113,7 +116,10 @@
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
               "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
               "enable_filament_inventory": "필라멘트 재고 활성화(Filament Manager, Bambu Cloud 필요)",
-              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):"
+              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
@@ -197,7 +203,10 @@
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
               "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
               "enable_filament_inventory": "필라멘트 재고 활성화(Filament Manager, Bambu Cloud 필요)",
-              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):"
+              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
@@ -220,7 +229,10 @@
               "disable_ssl_verify": "SSL 확인을 비활성화합니다",
               "enable_firmware_update": "펌웨어 업데이트 지원을 활성화합니다",
               "enable_filament_inventory": "필라멘트 재고 활성화(Filament Manager, Bambu Cloud 필요)",
-              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):"
+              "filament_inventory_interval": "필라멘트 인벤토리 새로 고침 간격(분):",
+              "slicer_key": "슬라이서 개인 키 (선택 사항):",
+              "slicer_cert": "슬라이서 인증서 (선택 사항):",
+              "slicer_crl": "슬라이서 CRL (선택 사항):"
             }
           }
         }
