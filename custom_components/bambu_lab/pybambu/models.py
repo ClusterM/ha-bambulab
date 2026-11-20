@@ -23,6 +23,17 @@ from PIL import Image
 import asyncio
 
 from .air_purifier import AirPurifier
+from .filament_usage import analyze_plate_from_zipfile
+from .print_filament import (
+    FilamentPrintState,
+    build_slice_metadata_planned,
+    clear_filament_print_state,
+    get_tray_planned,
+    get_tray_usage,
+    pop_filament_used_events,
+    process_layer_updates,
+    update_filament_mapping,
+)
 from .utils import (
     search,
     fan_percentage,
@@ -1209,6 +1220,7 @@ class PrintJob:
         self._ftpThread = None
         self._ftp_download_percentage = 100
         self._next_model_retry_at = 0.0
+        self._filament_print = FilamentPrintState()
 
     @property
     def model_download_percentage(self) -> int:
@@ -1269,6 +1281,7 @@ class PrintJob:
 
     def print_update(self, data) -> bool:
         old_data = f"{self.__dict__}"
+        previous_mqtt_layer = self.current_layer
 
         # Example payload:
         # {
@@ -1337,6 +1350,7 @@ class PrintJob:
             self.ams_mapping = [normalize_ams_slot(index) for index in data["ams_mapping"]]
         self._tray_mapping = data.get("mapping", self._tray_mapping)
         self._skipped_objects = data.get("s_obj", self._skipped_objects)
+        update_filament_mapping(self._filament_print, data)
 
         # Initialize task data at startup.
         if previous_gcode_state == "unknown" and self.gcode_state != "unknown":
@@ -1455,7 +1469,31 @@ class PrintJob:
                 LOGGER.debug(f"NEW USAGE HOURS: {new_hours}")
                 self._client._device.info.usage_hours += new_hours
 
+        process_layer_updates(
+            self._filament_print,
+            previous_mqtt_layer=previous_mqtt_layer,
+            current_mqtt_layer=self.current_layer,
+            gcode_state=self.gcode_state,
+            ftp_enabled=self._client.ftp_enabled,
+            device=self._client._device,
+        )
+
         return (old_data != f"{self.__dict__}")
+
+    def pop_filament_used_events(self):
+        return pop_filament_used_events(self._filament_print)
+
+    def get_tray_print_usage(self, flat_tray: int):
+        return get_tray_usage(self._filament_print, flat_tray)
+
+    def get_tray_print_planned(self, flat_tray: int):
+        return get_tray_planned(
+            self._filament_print,
+            flat_tray,
+            device=self._client._device,
+            gcode_state=self.gcode_state,
+            ftp_enabled=self._client.ftp_enabled,
+        )
 
     # FTP implementation differences between P1 and X1 printers:
     # - X1 includes the path in the returned filenames for the NLST command
@@ -2417,6 +2455,7 @@ class PrintJob:
         self._ams_print_weights = [0.0] * AMS_HT_UNIT_END # TODO: Convert to a dict in the future?
         self._ams_print_lengths = [0.0] * AMS_HT_UNIT_END # TODO: Convert to a dict in the future?
         self.gcode_file_downloaded = ""
+        clear_filament_print_state(self._filament_print)
 
     def _clear_pick_data(self):
         LOGGER.debug("Clearing pick data")
@@ -2838,6 +2877,27 @@ class PrintJob:
                     plate_json_bytes=plate_json_bytes,
                     pick_image_bytes=pick_image_bytes,
                 )
+
+                if plate_number is not None:
+                    try:
+                        self._filament_print.plate_usage = analyze_plate_from_zipfile(
+                            archive, int(plate_number)
+                        )
+                        self._filament_print.slice_metadata_planned = (
+                            build_slice_metadata_planned(
+                                self._filament_print.plate_usage,
+                                self._filament_print.filament_mapping,
+                            )
+                        )
+                        LOGGER.debug(
+                            "Plate usage parsed: %s layers, %s filaments",
+                            len(self._filament_print.plate_usage.layers),
+                            len(self._filament_print.plate_usage.filaments),
+                        )
+                    except Exception as e:
+                        LOGGER.error(f"Failed to parse per-layer plate usage: {e}")
+
+            archive.close()
 
         except Exception as e:
             LOGGER.error(f"Unexpected error parsing model data: {e}")
