@@ -127,6 +127,27 @@ class TestParseFilamentChanges(unittest.TestCase):
         self.assertTrue(changes[2].is_purge)
         self.assertEqual(changes[2].flush_length_mm, 0.0)
 
+    def test_start_gcode_load_is_nozzle_load(self):
+        changes = []
+        nozzle_loads = []
+        parse_gcode(CHANGES_GCODE, filament_changes=changes, nozzle_loads=nozzle_loads)
+        self.assertEqual(nozzle_loads, [-1])
+        self.assertFalse(any(c.first_nozzle_use for c in changes))
+
+    def test_first_use_of_second_nozzle_is_purge(self):
+        changes = []
+        nozzle_loads = []
+        parse_gcode(
+            "; filament_map = 1,2,1\n" + CHANGES_GCODE,
+            filament_changes=changes,
+            nozzle_loads=nozzle_loads,
+        )
+        self.assertEqual(nozzle_loads, [-1])
+        self.assertEqual(
+            [(c.from_filament, c.to_filament, c.first_nozzle_use, c.is_purge) for c in changes],
+            [(0, 1, True, True), (1, 2, False, True), (2, 0, False, True)],
+        )
+
     def test_changes_collected_without_flush_usage(self):
         changes = []
         parse_gcode(CHANGES_GCODE, include_flush=False, filament_changes=changes)
@@ -152,6 +173,7 @@ class TestAnalyzePlateFromZipfile(unittest.TestCase):
             usage = analyze_plate_from_zipfile(archive, 1, calibrate=False)
         self.assertEqual(len(usage.filament_changes), 3)
         self.assertEqual(sum(c.is_purge for c in usage.filament_changes), 2)
+        self.assertEqual(usage.nozzle_loads, [-1])
 
 
 class TestParseSliceInfo(unittest.TestCase):
