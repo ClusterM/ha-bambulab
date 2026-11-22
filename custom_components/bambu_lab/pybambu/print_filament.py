@@ -8,6 +8,7 @@ from .const import Features, LOGGER
 from .filament_usage import (
     EXTERNAL_SPOOL_TRAY,
     SECOND_EXTERNAL_SPOOL_TRAY,
+    LayerUsage,
     PlateUsage,
     decode_mapping_list,
     decode_mapping_value,
@@ -49,6 +50,7 @@ class FilamentPrintState:
     tray_print_usage: dict[int, TrayPrintUsage] = field(default_factory=dict)
     filament_used_events: list[FilamentUsedEvent] = field(default_factory=list)
     slice_metadata_planned: dict[int, TrayPrintUsage] = field(default_factory=dict)
+    print_start_observed: bool = False
 
 
 def clear_filament_print_state(state: FilamentPrintState) -> None:
@@ -60,6 +62,7 @@ def clear_filament_print_state(state: FilamentPrintState) -> None:
     state.tray_print_usage = {}
     state.filament_used_events = []
     state.slice_metadata_planned = {}
+    state.print_start_observed = False
 
 
 def update_filament_mapping(state: FilamentPrintState, data: dict) -> None:
@@ -140,6 +143,17 @@ def _accumulate_layer(
     if layer is None:
         return
 
+    _accumulate_layer_usage(state, layer, device=device)
+
+
+def _accumulate_layer_usage(
+    state: FilamentPrintState,
+    layer: LayerUsage,
+    *,
+    device,
+    emit_events: bool = True,
+) -> None:
+    layer_index = layer.layer
     for filament_index, mass_g in layer.mass_g.items():
         if mass_g <= 0 and layer.length_mm.get(filament_index, 0) <= 0:
             continue
@@ -160,6 +174,8 @@ def _accumulate_layer(
         usage.mass_g += mass_g
         usage.length_mm += length_mm
 
+        if not emit_events:
+            continue
         state.filament_used_events.append(
             FilamentUsedEvent(
                 filament_index=filament_index,
@@ -188,6 +204,52 @@ def _max_3mf_layer(plate_usage: PlateUsage) -> int:
     if not plate_usage.layers:
         return -1
     return max(layer.layer for layer in plate_usage.layers)
+
+
+def sync_plate_usage_on_parse(
+    state: FilamentPrintState,
+    plate_usage: PlateUsage,
+    *,
+    current_mqtt_layer: int,
+    gcode_state: str,
+    device,
+) -> None:
+    """Attach a freshly parsed 3MF to the print state.
+
+    When the print start was not observed (Home Assistant started mid-print or
+    after it finished), layers already printed are credited to tray usage
+    without queueing filament_used events, so they are not reported twice.
+    """
+    completed = -1
+    if not state.print_start_observed:
+        if gcode_state == "FINISH":
+            completed = _max_3mf_layer(plate_usage)
+        elif gcode_state in ACTIVE_PRINT_STATES:
+            _ensure_layer_offset(state, current_mqtt_layer)
+            completed = _mqtt_to_last_completed_3mf_layer(
+                current_mqtt_layer, state.layer_mqtt_offset
+            )
+
+    first_skipped = state.last_emitted_layer + 1
+    if completed >= first_skipped:
+        # Advance the pointer before publishing plate_usage: the MQTT thread
+        # starts emitting from last_emitted_layer as soon as plate_usage is set.
+        state.last_emitted_layer = completed
+        state.current_3mf_layer = completed
+
+    state.plate_usage = plate_usage
+
+    if completed >= first_skipped:
+        for layer in plate_usage.layers:
+            if first_skipped <= layer.layer <= completed:
+                _accumulate_layer_usage(state, layer, device=device, emit_events=False)
+        LOGGER.debug(
+            "Late 3MF parse at MQTT layer %s (%s): skipped filament_used events for 3MF layers %s..%s",
+            current_mqtt_layer,
+            gcode_state,
+            first_skipped,
+            completed,
+        )
 
 
 def process_layer_updates(

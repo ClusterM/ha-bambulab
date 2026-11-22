@@ -33,6 +33,7 @@ from .print_filament import (
     get_tray_usage,
     pop_filament_used_events,
     process_layer_updates,
+    sync_plate_usage_on_parse,
     update_filament_mapping,
 )
 from .utils import (
@@ -1387,6 +1388,7 @@ class PrintJob:
 
             # Clear existing cover & pick image data before attempting any fresh download.
             self._clear_model_data()
+            self._filament_print.print_start_observed = True
 
             # Generate the start_time when printer moves from idle to another state. Original attempt with remaining time
             # becoming non-zero didn't work as it never bounced to zero in at least the scenario where a print was canceled.
@@ -2896,8 +2898,12 @@ class PrintJob:
 
                 if plate_number is not None:
                     try:
-                        self._filament_print.plate_usage = analyze_plate_from_zipfile(
-                            archive, int(plate_number)
+                        sync_plate_usage_on_parse(
+                            self._filament_print,
+                            analyze_plate_from_zipfile(archive, int(plate_number)),
+                            current_mqtt_layer=self.current_layer,
+                            gcode_state=self.gcode_state,
+                            device=self._client._device,
                         )
                         self._filament_print.slice_metadata_planned = (
                             build_slice_metadata_planned(

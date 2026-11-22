@@ -41,6 +41,8 @@ The print canceled and print error events are only a transient event from the pr
 
 If MQTT `layer_num` advances by **one** at a time, the integration may emit several events in one update when the 3MF was downloaded late (catch-up). If `layer_num` **jumps by more than one** (for example after skipping objects on the plate), only the newly completed layer is credited — intermediate 3MF layers are not treated as printed.
 
+If Home Assistant (or the integration) starts while a print is already running, or after it has finished, events are only fired for layers completed after startup. Layers printed before that are not reported again, so automations that deduct filament (e.g. Spoolman) do not count them twice; their usage is still included in the per-tray print usage attributes. Catch-up only applies when the integration saw the print start and the 3MF was downloaded late.
+
 The printer sensor that exposes HMS errors as a list would very complex to effectively handle correctly in the multi-error case so the printer errors event just gives you the most recent error to allow much easier handling in a notification.
 
 Event payload always contains the device_id and name. And the additional data where called out above. When crafting a notification or similar you can access the event data with a template of `{{ trigger.event.data.[data_name]}}` - e.g. `{{ trigger.event.data.**error** }}`.
