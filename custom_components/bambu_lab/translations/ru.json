@@ -849,6 +849,18 @@
       "total_layers": {
         "name": "Всего слоёв"
       },
+      "filament_changes_total": {
+        "name": "Всего смен филамента"
+      },
+      "filament_changes_done": {
+        "name": "Выполнено смен филамента"
+      },
+      "purges_total": {
+        "name": "Всего промывок"
+      },
+      "purges_done": {
+        "name": "Выполнено промывок"
+      },
       "active_tray": {
         "name": "Активный лоток",
         "state": {

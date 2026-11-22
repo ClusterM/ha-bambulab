@@ -28,6 +28,7 @@ from .print_filament import (
     FilamentPrintState,
     build_slice_metadata_planned,
     clear_filament_print_state,
+    get_filament_change_counts,
     get_tray_planned,
     get_tray_usage,
     pop_filament_used_events,
@@ -1499,6 +1500,15 @@ class PrintJob:
             device=self._client._device,
             gcode_state=self.gcode_state,
             ftp_enabled=self._client.ftp_enabled,
+        )
+
+    def get_filament_change_counts(self):
+        if not self._client.ftp_enabled:
+            return None
+        return get_filament_change_counts(
+            self._filament_print,
+            current_mqtt_layer=self.current_layer,
+            gcode_state=self.gcode_state,
         )
 
     # FTP implementation differences between P1 and X1 printers:

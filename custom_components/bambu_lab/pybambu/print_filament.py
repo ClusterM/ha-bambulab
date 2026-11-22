@@ -32,6 +32,14 @@ class FilamentUsedEvent:
 
 
 @dataclass
+class FilamentChangeCounts:
+    total: int
+    done: int
+    purges_total: int
+    purges_done: int
+
+
+@dataclass
 class FilamentPrintState:
     plate_usage: PlateUsage | None = None
     filament_mapping: list[int | None] = field(default_factory=list)
@@ -101,9 +109,15 @@ def _mqtt_to_last_completed_3mf_layer(mqtt_layer: int, offset: int) -> int:
     return mqtt_layer - offset - 1
 
 
+def _resolve_layer_offset(state: FilamentPrintState, mqtt_layer: int) -> int:
+    if state.layer_mqtt_offset is not None:
+        return state.layer_mqtt_offset
+    return 1 if mqtt_layer >= 1 else 0
+
+
 def _ensure_layer_offset(state: FilamentPrintState, mqtt_layer: int) -> None:
     if state.layer_mqtt_offset is None:
-        state.layer_mqtt_offset = 1 if mqtt_layer >= 1 else 0
+        state.layer_mqtt_offset = _resolve_layer_offset(state, mqtt_layer)
 
 
 def _layer_usage_by_index(plate_usage: PlateUsage, layer_index: int):
@@ -304,6 +318,33 @@ def get_tray_planned(
     return TrayPrintUsage(
         mass_g=used.mass_g + remaining_mass,
         length_mm=used.length_mm + remaining_length,
+    )
+
+
+def get_filament_change_counts(
+    state: FilamentPrintState,
+    *,
+    current_mqtt_layer: int,
+    gcode_state: str,
+) -> FilamentChangeCounts | None:
+    if state.plate_usage is None:
+        return None
+
+    changes = state.plate_usage.filament_changes
+    if gcode_state == "FINISH":
+        done = changes
+    else:
+        # Derived from the live MQTT layer rather than last_emitted_layer, which
+        # only advances on a layer change and lags after a mid-print restart.
+        offset = _resolve_layer_offset(state, current_mqtt_layer)
+        completed = _mqtt_to_last_completed_3mf_layer(current_mqtt_layer, offset)
+        done = [change for change in changes if change.layer <= completed]
+
+    return FilamentChangeCounts(
+        total=len(changes),
+        done=len(done),
+        purges_total=sum(1 for change in changes if change.is_purge),
+        purges_done=sum(1 for change in done if change.is_purge),
     )
 
 
