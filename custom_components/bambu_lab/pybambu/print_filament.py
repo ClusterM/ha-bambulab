@@ -393,20 +393,30 @@ def get_filament_change_counts(
         return None
 
     changes = state.plate_usage.filament_changes
+    nozzle_loads = state.plate_usage.nozzle_loads
     if gcode_state == "FINISH":
         done = changes
+        nozzle_loads_done = len(nozzle_loads)
     else:
         # Derived from the live MQTT layer rather than last_emitted_layer, which
         # only advances on a layer change and lags after a mid-print restart.
         offset = _resolve_layer_offset(state, current_mqtt_layer)
         completed = _mqtt_to_last_completed_3mf_layer(current_mqtt_layer, offset)
         done = [change for change in changes if change.layer <= completed]
+        # MQTT reports layer 0 while preparing, so the start gcode prime is done
+        # once the first layer is being printed.
+        nozzle_loads_done = sum(
+            1
+            for layer in nozzle_loads
+            if (current_mqtt_layer >= 1 if layer < 0 else layer <= completed)
+        )
 
     return FilamentChangeCounts(
         total=len(changes),
         done=len(done),
-        purges_total=sum(1 for change in changes if change.is_purge),
-        purges_done=sum(1 for change in done if change.is_purge),
+        purges_total=sum(1 for change in changes if change.is_purge)
+        + len(nozzle_loads),
+        purges_done=sum(1 for change in done if change.is_purge) + nozzle_loads_done,
     )
 
 

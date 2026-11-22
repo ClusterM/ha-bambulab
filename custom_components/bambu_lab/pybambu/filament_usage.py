@@ -32,6 +32,7 @@ STOP_OBJECT_PATTERN = re.compile(
     r"; stop printing object, unique label id: (\d+)"
 )
 FLUSH_START_MARKER = "; FLUSH_START"
+FILAMENT_MAP_PREFIX = "; filament_map = "
 SHARED_OBJECT_NAME = "__shared__"
 
 
@@ -63,12 +64,13 @@ class FilamentChange:
     to_filament: int
     flush_length_mm: float = 0.0
     flush_marker: bool = False
+    first_nozzle_use: bool = False
 
     @property
     def is_purge(self) -> bool:
-        # Dual-nozzle printers switch nozzles without flushing (L0) when each
-        # filament stays loaded in its own nozzle.
-        return self.flush_length_mm > 0 or self.flush_marker
+        # Loading a nozzle for the first time primes it even with L0; later
+        # switches to a filament still loaded in its own nozzle do not purge.
+        return self.flush_length_mm > 0 or self.flush_marker or self.first_nozzle_use
 
 
 @dataclass
@@ -123,6 +125,8 @@ class PlateUsage:
     raw_length_mm: dict[int, float] = field(default_factory=dict)
     calibrated: bool = False
     filament_changes: list[FilamentChange] = field(default_factory=list)
+    # 3MF layers of nozzle loads that are not filament changes (-1 = start gcode).
+    nozzle_loads: list[int] = field(default_factory=list)
 
     def total_length_mm(self, filament: int | None = None) -> float:
         if filament is None:
@@ -381,20 +385,38 @@ def _resolve_flush_object(
     return _find_next_object_id(lines, line_number + 1) or last_object
 
 
+def _parse_filament_map(value: str) -> list[int]:
+    try:
+        return [int(item) for item in value.split(",") if item.strip()]
+    except ValueError:
+        return []
+
+
+def _nozzle_for_filament(filament_map: list[int], filament_id: int) -> int:
+    if filament_id < len(filament_map):
+        return filament_map[filament_id]
+    return 1
+
+
 def parse_gcode(
     gcode_text: str,
     *,
     include_flush: bool = True,
     filament_changes: list[FilamentChange] | None = None,
+    nozzle_loads: list[int] | None = None,
 ) -> tuple[list[LayerUsage], list[ObjectUsage], dict[int, float]]:
     """Parse per-layer extrusion from plate gcode.
 
     When ``filament_changes`` is given, every switch of the active filament is
     appended to it (initial load, same-filament blocks and unloads excluded).
+    When ``nozzle_loads`` is given, the layer of every first load of a nozzle
+    that is not a filament change (normally the start gcode, -1) is appended.
     """
     lines = gcode_text.splitlines()
     first_change_layer = _find_first_change_layer(lines)
 
+    filament_map: list[int] = []
+    used_nozzles: set[int] = set()
     current_filament: int | None = None
     pending_old: int | None = None
     pending_new: int | None = None
@@ -434,6 +456,10 @@ def parse_gcode(
         if line.startswith(";"):
             if pending_change is not None and line == FLUSH_START_MARKER:
                 pending_change.flush_marker = True
+                continue
+
+            if line.startswith(FILAMENT_MAP_PREFIX):
+                filament_map = _parse_filament_map(line[len(FILAMENT_MAP_PREFIX):])
                 continue
 
             object_match = OBJECT_ID_PATTERN.match(line)
@@ -477,19 +503,27 @@ def parse_gcode(
                 pending_old = current_filament
                 pending_new = filament_id
                 current_filament = filament_id
+                first_nozzle_use = False
+                if filament_id < 255:
+                    nozzle = _nozzle_for_filament(filament_map, filament_id)
+                    first_nozzle_use = nozzle not in used_nozzles
+                    used_nozzles.add(nozzle)
                 if (
-                    filament_changes is not None
-                    and filament_id < 255
+                    filament_id < 255
                     and pending_old is not None
                     and pending_old < 255
                     and pending_old != filament_id
                 ):
-                    pending_change = FilamentChange(
-                        layer=max(layer_index, 0),
-                        from_filament=pending_old,
-                        to_filament=filament_id,
-                    )
-                    filament_changes.append(pending_change)
+                    if filament_changes is not None:
+                        pending_change = FilamentChange(
+                            layer=max(layer_index, 0),
+                            from_filament=pending_old,
+                            to_filament=filament_id,
+                            first_nozzle_use=first_nozzle_use,
+                        )
+                        filament_changes.append(pending_change)
+                elif first_nozzle_use and nozzle_loads is not None:
+                    nozzle_loads.append(layer_index)
             continue
 
         flush_match = M620_10_PATTERN.match(line)
@@ -681,10 +715,12 @@ def analyze_plate(
     object_names = {item.identify_id: item.name for item in objects}
 
     filament_changes: list[FilamentChange] = []
+    nozzle_loads: list[int] = []
     layers, object_usage, raw_totals = parse_gcode(
         gcode_text,
         include_flush=include_flush,
         filament_changes=filament_changes,
+        nozzle_loads=nozzle_loads,
     )
 
     for item in object_usage:
@@ -708,6 +744,7 @@ def analyze_plate(
         raw_length_mm=raw_totals,
         calibrated=calibrate,
         filament_changes=filament_changes,
+        nozzle_loads=nozzle_loads,
     )
 
 
@@ -772,10 +809,12 @@ def analyze_plate_from_zipfile(
     object_names = {item.identify_id: item.name for item in objects}
 
     filament_changes: list[FilamentChange] = []
+    nozzle_loads: list[int] = []
     layers, object_usage, raw_totals = parse_gcode(
         gcode_text,
         include_flush=include_flush,
         filament_changes=filament_changes,
+        nozzle_loads=nozzle_loads,
     )
 
     for item in object_usage:
@@ -799,4 +838,5 @@ def analyze_plate_from_zipfile(
         raw_length_mm=raw_totals,
         calibrated=calibrate,
         filament_changes=filament_changes,
+        nozzle_loads=nozzle_loads,
     )

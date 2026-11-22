@@ -330,6 +330,15 @@ class TestFilamentChangeCounts(unittest.TestCase):
         self.assertEqual((counts.done, counts.purges_done), (3, 1))
         self.assertIsNone(self.state.layer_mqtt_offset)
 
+    def test_start_nozzle_load_counts_as_purge_once_printing(self):
+        self.state.plate_usage.nozzle_loads = [-1]
+        counts = self._counts(0, gcode_state="PREPARE")
+        self.assertEqual((counts.purges_total, counts.purges_done), (3, 0))
+        self.assertEqual(self._counts(1).purges_done, 1)
+        self.assertEqual(self._counts(6).purges_done, 2)
+        self.assertEqual(self._counts(100, gcode_state="FINISH").purges_done, 3)
+        self.assertEqual(self._counts(1).total, 4)
+
     def test_unknown_without_plate_usage(self):
         clear_filament_print_state(self.state)
         self.assertIsNone(self._counts(100))
