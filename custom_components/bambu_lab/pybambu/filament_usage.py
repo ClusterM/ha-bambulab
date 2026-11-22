@@ -31,6 +31,7 @@ START_OBJECT_PATTERN = re.compile(
 STOP_OBJECT_PATTERN = re.compile(
     r"; stop printing object, unique label id: (\d+)"
 )
+FLUSH_START_MARKER = "; FLUSH_START"
 SHARED_OBJECT_NAME = "__shared__"
 
 
@@ -51,6 +52,23 @@ class FilamentInfo:
 class ObjectInfo:
     identify_id: int
     name: str
+
+
+@dataclass
+class FilamentChange:
+    """One switch of the active filament (``M620 S<n>A`` ... ``M621``)."""
+
+    layer: int
+    from_filament: int
+    to_filament: int
+    flush_length_mm: float = 0.0
+    flush_marker: bool = False
+
+    @property
+    def is_purge(self) -> bool:
+        # Dual-nozzle printers switch nozzles without flushing (L0) when each
+        # filament stays loaded in its own nozzle.
+        return self.flush_length_mm > 0 or self.flush_marker
 
 
 @dataclass
@@ -104,6 +122,7 @@ class PlateUsage:
     object_usage: list[ObjectUsage]
     raw_length_mm: dict[int, float] = field(default_factory=dict)
     calibrated: bool = False
+    filament_changes: list[FilamentChange] = field(default_factory=list)
 
     def total_length_mm(self, filament: int | None = None) -> float:
         if filament is None:
@@ -366,13 +385,20 @@ def parse_gcode(
     gcode_text: str,
     *,
     include_flush: bool = True,
+    filament_changes: list[FilamentChange] | None = None,
 ) -> tuple[list[LayerUsage], list[ObjectUsage], dict[int, float]]:
+    """Parse per-layer extrusion from plate gcode.
+
+    When ``filament_changes`` is given, every switch of the active filament is
+    appended to it (initial load, same-filament blocks and unloads excluded).
+    """
     lines = gcode_text.splitlines()
     first_change_layer = _find_first_change_layer(lines)
 
     current_filament: int | None = None
     pending_old: int | None = None
     pending_new: int | None = None
+    pending_change: FilamentChange | None = None
     current_object: int | None = None
     last_object: int | None = None
     layer_index = -1
@@ -406,6 +432,10 @@ def parse_gcode(
             continue
 
         if line.startswith(";"):
+            if pending_change is not None and line == FLUSH_START_MARKER:
+                pending_change.flush_marker = True
+                continue
+
             object_match = OBJECT_ID_PATTERN.match(line)
             if object_match:
                 current_object, last_object = _set_object_context(
@@ -447,10 +477,26 @@ def parse_gcode(
                 pending_old = current_filament
                 pending_new = filament_id
                 current_filament = filament_id
+                if (
+                    filament_changes is not None
+                    and filament_id < 255
+                    and pending_old is not None
+                    and pending_old < 255
+                    and pending_old != filament_id
+                ):
+                    pending_change = FilamentChange(
+                        layer=max(layer_index, 0),
+                        from_filament=pending_old,
+                        to_filament=filament_id,
+                    )
+                    filament_changes.append(pending_change)
             continue
 
+        flush_match = M620_10_PATTERN.match(line)
+        if flush_match and pending_change is not None:
+            pending_change.flush_length_mm += float(flush_match.group(2))
+
         if include_flush:
-            flush_match = M620_10_PATTERN.match(line)
             if (
                 flush_match
                 and layer_index >= 0
@@ -476,6 +522,7 @@ def parse_gcode(
         if M621_PATTERN.match(line):
             pending_old = None
             pending_new = None
+            pending_change = None
             continue
 
         target_layer = layer_index
@@ -633,9 +680,11 @@ def analyze_plate(
     objects = parse_slice_info_objects(slice_info_xml, plate)
     object_names = {item.identify_id: item.name for item in objects}
 
+    filament_changes: list[FilamentChange] = []
     layers, object_usage, raw_totals = parse_gcode(
         gcode_text,
         include_flush=include_flush,
+        filament_changes=filament_changes,
     )
 
     for item in object_usage:
@@ -658,6 +707,7 @@ def analyze_plate(
         object_usage=object_usage,
         raw_length_mm=raw_totals,
         calibrated=calibrate,
+        filament_changes=filament_changes,
     )
 
 
@@ -721,9 +771,11 @@ def analyze_plate_from_zipfile(
     objects = parse_slice_info_objects(slice_info_xml, plate)
     object_names = {item.identify_id: item.name for item in objects}
 
+    filament_changes: list[FilamentChange] = []
     layers, object_usage, raw_totals = parse_gcode(
         gcode_text,
         include_flush=include_flush,
+        filament_changes=filament_changes,
     )
 
     for item in object_usage:
@@ -746,4 +798,5 @@ def analyze_plate_from_zipfile(
         object_usage=object_usage,
         raw_length_mm=raw_totals,
         calibrated=calibrate,
+        filament_changes=filament_changes,
     )

@@ -3,15 +3,17 @@
 import unittest
 from unittest.mock import MagicMock
 
-from pybambu.filament_usage import LayerUsage, PlateUsage, FilamentInfo
+from pybambu.filament_usage import FilamentChange, LayerUsage, PlateUsage, FilamentInfo
 from pybambu.print_filament import (
     FilamentPrintState,
     clear_filament_print_state,
+    get_filament_change_counts,
     get_filament_tray_index,
     get_tray_planned,
     get_tray_usage,
     pop_filament_used_events,
     process_layer_updates,
+    sync_plate_usage_on_parse,
     update_filament_mapping,
 )
 
@@ -200,3 +202,134 @@ class TestFilamentUsedEvents(unittest.TestCase):
         clear_filament_print_state(self.state)
         self.assertEqual(len(pop_filament_used_events(self.state)), 0)
         self.assertEqual(get_tray_usage(self.state, 2).mass_g, 0.0)
+
+
+class TestSyncPlateUsageOnParse(unittest.TestCase):
+    def setUp(self):
+        self.state = FilamentPrintState()
+        self.device = MagicMock()
+        update_filament_mapping(self.state, {"mapping": [1]})
+        self.plate_usage = PlateUsage(
+            plate=1,
+            filaments=[FilamentInfo(index=0, length_mm=1000.0, mass_g=20.0)],
+            objects=[],
+            layers=[
+                LayerUsage(layer=i, length_mm={0: 1.0}, mass_g={0: 0.1})
+                for i in range(200)
+            ],
+            object_usage=[],
+            calibrated=True,
+        )
+
+    def _sync(self, mqtt_layer: int, gcode_state: str = "RUNNING"):
+        sync_plate_usage_on_parse(
+            self.state,
+            self.plate_usage,
+            current_mqtt_layer=mqtt_layer,
+            gcode_state=gcode_state,
+            device=self.device,
+        )
+
+    def _layer_change(self, previous: int, current: int, gcode_state: str = "RUNNING"):
+        process_layer_updates(
+            self.state,
+            previous_mqtt_layer=previous,
+            current_mqtt_layer=current,
+            gcode_state=gcode_state,
+            ftp_enabled=True,
+            device=self.device,
+        )
+
+    def test_mid_print_restart_does_not_replay_past_layers(self):
+        self._sync(100)
+        self.assertIs(self.state.plate_usage, self.plate_usage)
+        self.assertEqual(pop_filament_used_events(self.state), [])
+        self.assertEqual(self.state.last_emitted_layer, 98)
+        self.assertAlmostEqual(get_tray_usage(self.state, 1).mass_g, 9.9)
+
+        self._layer_change(100, 101)
+        events = pop_filament_used_events(self.state)
+        self.assertEqual([e.layer for e in events], [99])
+        self.assertAlmostEqual(get_tray_usage(self.state, 1).mass_g, 10.0)
+
+    def test_restart_after_finish_does_not_replay_print(self):
+        self._sync(200, gcode_state="FINISH")
+        self._layer_change(200, 200, gcode_state="FINISH")
+        self.assertEqual(pop_filament_used_events(self.state), [])
+        self.assertAlmostEqual(get_tray_usage(self.state, 1).mass_g, 20.0)
+
+    def test_restart_during_prepare_keeps_all_layers(self):
+        self._sync(0, gcode_state="PREPARE")
+        self.assertEqual(self.state.last_emitted_layer, -1)
+        self._layer_change(0, 1)
+        self._layer_change(1, 2)
+        events = pop_filament_used_events(self.state)
+        self.assertEqual([e.layer for e in events], [0, 1])
+
+    def test_observed_start_keeps_late_parse_catch_up(self):
+        self.state.print_start_observed = True
+        self._sync(3)
+        self.assertEqual(self.state.last_emitted_layer, -1)
+        self._layer_change(3, 4)
+        events = pop_filament_used_events(self.state)
+        self.assertEqual([e.layer for e in events], [0, 1, 2])
+
+    def test_clear_resets_observed_flag(self):
+        self.state.print_start_observed = True
+        clear_filament_print_state(self.state)
+        self.assertFalse(self.state.print_start_observed)
+
+
+class TestFilamentChangeCounts(unittest.TestCase):
+    def setUp(self):
+        self.state = FilamentPrintState()
+        self.state.plate_usage = PlateUsage(
+            plate=1,
+            filaments=[],
+            objects=[],
+            layers=[LayerUsage(layer=i, length_mm={0: 1.0}) for i in range(200)],
+            object_usage=[],
+            filament_changes=[
+                FilamentChange(layer=5, from_filament=0, to_filament=1),
+                FilamentChange(layer=5, from_filament=1, to_filament=0, flush_length_mm=50.0),
+                FilamentChange(layer=50, from_filament=0, to_filament=1),
+                FilamentChange(layer=150, from_filament=1, to_filament=0, flush_length_mm=80.0),
+            ],
+        )
+        self.state.layer_mqtt_offset = 0
+
+    def _counts(self, mqtt_layer: int, gcode_state: str = "RUNNING"):
+        return get_filament_change_counts(
+            self.state,
+            current_mqtt_layer=mqtt_layer,
+            gcode_state=gcode_state,
+        )
+
+    def test_totals(self):
+        counts = self._counts(0)
+        self.assertEqual(counts.total, 4)
+        self.assertEqual(counts.purges_total, 2)
+        self.assertEqual(counts.done, 0)
+        self.assertEqual(counts.purges_done, 0)
+
+    def test_done_follows_completed_layers(self):
+        self.assertEqual(self._counts(5).done, 0)
+        counts = self._counts(6)
+        self.assertEqual((counts.done, counts.purges_done), (2, 1))
+        counts = self._counts(100)
+        self.assertEqual((counts.done, counts.purges_done), (3, 1))
+
+    def test_finish_completes_everything(self):
+        counts = self._counts(100, gcode_state="FINISH")
+        self.assertEqual((counts.done, counts.purges_done), (4, 2))
+
+    def test_mid_print_restart_uses_live_layer(self):
+        self.state.layer_mqtt_offset = None
+        self.state.last_emitted_layer = -1
+        counts = self._counts(100)
+        self.assertEqual((counts.done, counts.purges_done), (3, 1))
+        self.assertIsNone(self.state.layer_mqtt_offset)
+
+    def test_unknown_without_plate_usage(self):
+        clear_filament_print_state(self.state)
+        self.assertIsNone(self._counts(100))

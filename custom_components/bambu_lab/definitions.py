@@ -86,6 +86,13 @@ def _flat_tray_for_ams(coordinator: BambuDataUpdateCoordinator, ams_index: int, 
     return ams_index * 4 + tray_index
 
 
+def _filament_change_count(coordinator: BambuDataUpdateCoordinator, field: str) -> int | None:
+    counts = coordinator.get_model().print_job.get_filament_change_counts()
+    if counts is None:
+        return None
+    return getattr(counts, field)
+
+
 def _tray_print_job_attributes(coordinator: BambuDataUpdateCoordinator, flat_tray: int) -> dict:
     if not coordinator.client.ftp_enabled:
         return {}
@@ -663,6 +670,38 @@ PRINTER_SENSORS: tuple[BambuLabSensorEntityDescription, ...] = (
         icon="mdi:printer-3d-nozzle",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda self: self.coordinator.get_model().print_job.total_layers,
+    ),
+    BambuLabSensorEntityDescription(
+        key="filament_changes_total",
+        translation_key="filament_changes_total",
+        icon="mdi:swap-horizontal",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda self: _filament_change_count(self.coordinator, "total"),
+        exists_fn=lambda coordinator: coordinator.client.ftp_enabled,
+    ),
+    BambuLabSensorEntityDescription(
+        key="filament_changes_done",
+        translation_key="filament_changes_done",
+        icon="mdi:swap-horizontal",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda self: _filament_change_count(self.coordinator, "done"),
+        exists_fn=lambda coordinator: coordinator.client.ftp_enabled,
+    ),
+    BambuLabSensorEntityDescription(
+        key="purges_total",
+        translation_key="purges_total",
+        icon="mdi:delete-variant",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda self: _filament_change_count(self.coordinator, "purges_total"),
+        exists_fn=lambda coordinator: coordinator.client.ftp_enabled,
+    ),
+    BambuLabSensorEntityDescription(
+        key="purges_done",
+        translation_key="purges_done",
+        icon="mdi:delete-variant",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda self: _filament_change_count(self.coordinator, "purges_done"),
+        exists_fn=lambda coordinator: coordinator.client.ftp_enabled,
     ),
     BambuLabSensorEntityDescription(
         key="gcode_file",

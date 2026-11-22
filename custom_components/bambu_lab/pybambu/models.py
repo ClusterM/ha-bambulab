@@ -28,10 +28,12 @@ from .print_filament import (
     FilamentPrintState,
     build_slice_metadata_planned,
     clear_filament_print_state,
+    get_filament_change_counts,
     get_tray_planned,
     get_tray_usage,
     pop_filament_used_events,
     process_layer_updates,
+    sync_plate_usage_on_parse,
     update_filament_mapping,
 )
 from .utils import (
@@ -1386,6 +1388,7 @@ class PrintJob:
 
             # Clear existing cover & pick image data before attempting any fresh download.
             self._clear_model_data()
+            self._filament_print.print_start_observed = True
 
             # Generate the start_time when printer moves from idle to another state. Original attempt with remaining time
             # becoming non-zero didn't work as it never bounced to zero in at least the scenario where a print was canceled.
@@ -1499,6 +1502,15 @@ class PrintJob:
             device=self._client._device,
             gcode_state=self.gcode_state,
             ftp_enabled=self._client.ftp_enabled,
+        )
+
+    def get_filament_change_counts(self):
+        if not self._client.ftp_enabled:
+            return None
+        return get_filament_change_counts(
+            self._filament_print,
+            current_mqtt_layer=self.current_layer,
+            gcode_state=self.gcode_state,
         )
 
     # FTP implementation differences between P1 and X1 printers:
@@ -2886,8 +2898,12 @@ class PrintJob:
 
                 if plate_number is not None:
                     try:
-                        self._filament_print.plate_usage = analyze_plate_from_zipfile(
-                            archive, int(plate_number)
+                        sync_plate_usage_on_parse(
+                            self._filament_print,
+                            analyze_plate_from_zipfile(archive, int(plate_number)),
+                            current_mqtt_layer=self.current_layer,
+                            gcode_state=self.gcode_state,
+                            device=self._client._device,
                         )
                         self._filament_print.slice_metadata_planned = (
                             build_slice_metadata_planned(

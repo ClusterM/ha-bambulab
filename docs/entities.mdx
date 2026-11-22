@@ -39,6 +39,10 @@ nextTitle: Device Triggers
 | ----------------- | -------------------------------------------------- |
 | Current Layer     |                                                    |
 | Total Layer Count |                                                    |
+| Total Filament Changes     | FTPS only. \*\* See Note                  |
+| Completed Filament Changes | FTPS only. \*\* See Note                  |
+| Total Purges               | FTPS only. \*\* See Note                  |
+| Completed Purges           | FTPS only. \*\* See Note                  |
 | Print Progress    |                                                    |
 | Print Weight      | With Bambu credentials or when loaded from printer |
 | Print Length      | With Bambu credentials or when loaded from printer |
@@ -54,6 +58,10 @@ nextTitle: Device Triggers
 
 <Info>
 \* This is a running estimate that will be imprecise. Starting hours can be read of the printer screen and provided during initial printer setup or updated later via the configuration flow. And the integration must be running when a print completes to update the value. For non-X1 printers, if the integration is restarted mid-print and Bambu cloud connection isn't setup, the usage hours will not be added as print start time won't be known. It's expected that you'll need to adjust this value occasionally to fix drift from the value the printer itself calculates.
+</Info>
+
+<Info>
+\*\* Filament change and purge counts come from the plate gcode inside the active 3MF, so they require **FTPS** and stay unknown until the file has been parsed. A filament change is any switch of the active slicer filament (`M620 S<n>A`); the initial load and the final unload are not counted. A purge is a change that flushes material (`M620.10 ... L` greater than zero). On dual-nozzle printers a switch between filaments that stay loaded in different nozzles is a change but not a purge. The completed counts follow the current print layer and may be off by one layer; they equal the totals once the print finishes. When objects are skipped, changes in the skipped layers are still counted as completed.
 </Info>
 
 ## Miscellaneous

@@ -846,6 +846,18 @@
       "total_layers": {
         "name": "Total layer count"
       },
+      "filament_changes_total": {
+        "name": "Total filament changes"
+      },
+      "filament_changes_done": {
+        "name": "Completed filament changes"
+      },
+      "purges_total": {
+        "name": "Total purges"
+      },
+      "purges_done": {
+        "name": "Completed purges"
+      },
       "active_tray": {
         "name": "Active tray",
         "state": {

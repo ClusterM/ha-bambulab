@@ -78,6 +78,65 @@ class TestParseGcode(unittest.TestCase):
         self.assertGreater(by_layer[1].length_mm.get(0, 0), 0)
 
 
+CHANGES_GCODE = """M620 S0A
+M621 S0A
+M620 S0A
+M621 S0A
+G1 X1 Y1 E1
+; CHANGE_LAYER
+G1 X1 Y1 E1
+M620 S1A B H1
+M620.10 A0 F100 L0.0 H0.4 T220 P220 S1
+M620.10 A1 F100 L0.0 H0.4 T220 P220 S1
+T1 H1
+M620.10 R0.8
+M621 S1A B
+G1 X1 Y1 E1
+; CHANGE_LAYER
+M620 S2A B H0
+M620.10 A0 F100 L57.4 H0.4 T220 P220 S1
+M620.10 A1 F100 L57.4 H0.4 T220 P220 S1
+T2 H0
+M621 S2A B
+G1 X1 Y1 E1
+; CHANGE_LAYER
+M620 S0A
+T0
+; FLUSH_START
+G1 E10 F300
+; FLUSH_END
+M621 S0A
+G1 X1 Y1 E1
+M620 S255A
+M621 S255A
+"""
+
+
+class TestParseFilamentChanges(unittest.TestCase):
+    def test_changes_and_purges(self):
+        changes = []
+        parse_gcode(CHANGES_GCODE, filament_changes=changes)
+
+        self.assertEqual(
+            [(c.layer, c.from_filament, c.to_filament) for c in changes],
+            [(0, 0, 1), (1, 1, 2), (2, 2, 0)],
+        )
+        self.assertFalse(changes[0].is_purge)
+        self.assertTrue(changes[1].is_purge)
+        self.assertAlmostEqual(changes[1].flush_length_mm, 114.8)
+        self.assertTrue(changes[2].is_purge)
+        self.assertEqual(changes[2].flush_length_mm, 0.0)
+
+    def test_changes_collected_without_flush_usage(self):
+        changes = []
+        parse_gcode(CHANGES_GCODE, include_flush=False, filament_changes=changes)
+        self.assertEqual(sum(c.is_purge for c in changes), 2)
+
+    def test_changes_not_collected_by_default(self):
+        layers, _, _ = parse_gcode(CHANGES_GCODE)
+        self.assertGreater(len(layers), 0)
+
+
 class TestAnalyzePlateFromZipfile(unittest.TestCase):
     def test_analyze_plate_from_zipfile(self):
         with _make_3mf_zip() as archive:
@@ -86,6 +145,13 @@ class TestAnalyzePlateFromZipfile(unittest.TestCase):
         self.assertTrue(usage.calibrated)
         self.assertGreater(len(usage.layers), 0)
         self.assertGreater(usage.total_mass_g(), 0)
+        self.assertEqual(usage.filament_changes, [])
+
+    def test_analyze_plate_collects_filament_changes(self):
+        with _make_3mf_zip(CHANGES_GCODE) as archive:
+            usage = analyze_plate_from_zipfile(archive, 1, calibrate=False)
+        self.assertEqual(len(usage.filament_changes), 3)
+        self.assertEqual(sum(c.is_purge for c in usage.filament_changes), 2)
 
 
 class TestParseSliceInfo(unittest.TestCase):
